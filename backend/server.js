@@ -23,13 +23,27 @@ async function connectDB() {
 }
 connectDB();
 
+const User = require("./User.js");
 
 
 /// Routes
 
 // Post request (creating a new account)
-app.post("/register", (request, response, next) => { 
+app.post("/register", async (request, response, next) => { 
+  // Extracting the details
+  const { firstName, lastName, email, username, password } = request.body;
 
+  // If the user already exists, do not create an account
+  const tempUser = await User.findOne({username: username});
+  if (tempUser == null) {
+    response.status(409).json({createdUser: false});
+    return;
+  }
+
+  // Otherwise, create a new account and save it to the database
+  const newUser = new User({firstName, lastName, email, username, password});
+  await newUser.save();
+  response.status(201).json({createdUser: true, newUser});
 })
 
 
