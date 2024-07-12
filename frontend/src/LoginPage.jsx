@@ -1,9 +1,68 @@
 // JSX file for the login page
 
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function LoginPage() {  
+    const navigate = useNavigate();
+
+    // State variables
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [userError, setError] = useState(null);
+    
+
+    // Function to login
+    async function login(event) {
+      event.preventDefault();
+
+      // Handling missing input
+      if (username == "") {
+        setError("Enter your username");
+        return;
+      }
+      if (password == "") {
+        setError("Enter your password");
+        return;
+      }
+      setError("");
+
+      // Finding the account
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: 
+            JSON.stringify({
+              username: username,
+              password: password
+            })
+        });
+        let data = await response.json();
+        const {loggedIn, user} = data;
+
+        // If login is successful, navigate to the dashboard page
+        if (loggedIn) {
+          navigate("/dashboard");
+        }
+        // Else
+        else {
+          setError("Username or password is incorrect");
+        }
+      }
+      
+      catch (error) {
+
+      }
+
+      
+    }
+
+
+    // Returning
     return (
       <>
         {/* Navigation bar */}
@@ -25,13 +84,17 @@ function LoginPage() {
               {/* Login details */}
               <form action = "/login" method = "POST">
                 <div>
-                  <input type = "text" placeholder = "Username" className = "form-control mb-3" required></input> 
+                  <input value = {username} type = "text" placeholder = "Username" className = "form-control mb-3" onChange = {(event) => {setUsername(event.target.value)}} required></input> 
                 </div>
+
                 <div>
-                  <input type = "password" placeholder = "Password" className = "form-control mb-3" required></input> 
+                <input value = {password} type = "password" placeholder = "Password" className = "form-control mb-3" onChange = {(event) => {setPassword(event.target.value)}} required></input> 
                 </div>
+
+                {userError && <div className = "text-danger mb-3"> {userError} </div>}
+
                 <div>
-                  <input type = "submit" value = "Sign in" className = "btn btn-primary w-100 mb-4"></input> 
+                  <input type = "submit" value = "Sign in" className = "btn btn-primary w-100 mb-4" onClick = {login} ></input> 
                 </div>                
               </form> 
 
