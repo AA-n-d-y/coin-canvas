@@ -1,11 +1,38 @@
 // JSX file for the login page
 
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, redirect, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function LoginPage() {  
     const navigate = useNavigate();
+
+    /// If the user is already logged in, redirect to the landing page
+    // Function for getting the user details
+    async function getUserInformation() {
+        // Finding the account
+        try {
+            const response = await fetch("http://localhost:3000" + "/getUser", {
+            method: "GET",
+            headers: {
+                "authorization": "Bearer " + localStorage.getItem("accessToken")
+            }
+            });
+
+            // If the response is ok, navigate to the landing page
+            if (response.status === 200) {
+                navigate("/landing");
+            }
+            
+        }
+        
+        catch (error) {
+
+        }
+
+    }
+    getUserInformation();
+
 
     // State variables
     const [username, setUsername] = useState("");
@@ -30,7 +57,7 @@ function LoginPage() {
 
       // Finding the account
       try {
-        const response = await fetch("http://localhost:3000/login", {
+        const response = await fetch("http://localhost:3000" + "/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -42,11 +69,12 @@ function LoginPage() {
             })
         });
         let data = await response.json();
-        const {loggedIn, user} = data;
+        const {loggedIn, user, accessToken} = data;
 
-        // If login is successful, navigate to the dashboard page
+        // If login is successful, set the JWT to local storage and navigate to the landing page
         if (loggedIn) {
-          navigate("/dashboard");
+          localStorage.setItem("accessToken", accessToken);
+          navigate("/landing");
         }
         // Else
         else {
@@ -82,7 +110,7 @@ function LoginPage() {
               <div className = "h2 text-center form-label mb-4"> Login </div>
 
               {/* Login details */}
-              <form action = "/login" method = "POST">
+              <form>
                 <div>
                   <input value = {username} type = "text" placeholder = "Username" className = "form-control mb-3" onChange = {(event) => {setUsername(event.target.value)}} required></input> 
                 </div>

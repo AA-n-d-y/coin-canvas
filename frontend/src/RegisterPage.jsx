@@ -6,7 +6,34 @@ import './App.css';
 
 function RegisterPage() {  
     const navigate = useNavigate();
+    
+    /// If the user is already logged in, redirect to the landing page
+    // Function for getting the user details
+    async function getUserInformation() {
+        // Finding the account
+        try {
+            const response = await fetch("http://localhost:3000" + "/getUser", {
+            method: "GET",
+            headers: {
+                "authorization": "Bearer " + localStorage.getItem("accessToken")
+            }
+            });
 
+            // If the response is ok, navigate to the landing page
+            if (response.status === 200) {
+                navigate("/landing");
+            }
+            
+        }
+        
+        catch (error) {
+
+        }
+
+    }
+    getUserInformation();
+
+    
     // State variables
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
