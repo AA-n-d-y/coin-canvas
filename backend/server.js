@@ -35,12 +35,12 @@ const User = require("./User.js");
 /// Extra functions
 
 function generateToken(user) {
-  // Return a token associated with the user
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "30d"});
+  // Return a token associated with the user 
+  return jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN_SECRET, {expiresIn: "30d"});
 }
 
 function authenticateToken(request, response, next) {
-  const authHeader = req.headers["authorization"];
+  const authHeader = request.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
   // If the token does not exist
@@ -64,6 +64,20 @@ function authenticateToken(request, response, next) {
 
 
 /// Routes
+
+// Get request (getting a user's information)
+app.get("/getUser", authenticateToken, async (request, response) => {
+  // Getting the user information
+  const user = await User.findById(request.user._id);
+  const {firstName, lastName, email, username} = user;
+  
+  
+  // Returning the information
+  response.status(200).json({firstName, lastName, email, username});
+  return;
+  
+});
+
 
 // Post request (creating a new account)
 app.post("/register", async (request, response) => { 
@@ -101,19 +115,20 @@ app.post("/login", async (request, response) => {
     const user = await User.findOne({username: username});
 
     if (user != null && (await bcrypt.compare(password, user.password))) {
-      response.status(200).json({loggedIn: true, user});
+      // Generate the JWT and send stuff back to the client
+      response.status(200).json({loggedIn: true, user, accessToken: generateToken(user)});
     }
 
     // Otherwise, do not log them in
     else {
-      response.status(404).json({loggedIn: false, user: null});
+      response.status(404).json({loggedIn: false, user: null, accessToken: null});
     }
   }
   
   catch(error) {
     // Otherwise, do not log them in
-    response.status(404).json({loggedIn: false, user: null});
-    console.log("Error in logging in");
+    response.status(404).json({loggedIn: false, user: null, accessToken: null});
+    console.log(error);
   } 
 });
 
