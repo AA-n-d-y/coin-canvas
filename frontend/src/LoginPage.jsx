@@ -1,13 +1,13 @@
 // JSX file for the login page
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, redirect, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function LoginPage() {  
     const navigate = useNavigate();
 
-    /// If the user is already logged in, redirect to the landing page
+    /// If the user is already logged in, redirect to the dashboard
     // Function for getting the user details
     async function getUserInformation() {
         // Finding the account
@@ -19,9 +19,9 @@ function LoginPage() {
             }
             });
 
-            // If the response is ok, navigate to the landing page
+            // If the response is ok, navigate to the dashboard
             if (response.status === 200) {
-                navigate("/landing");
+                navigate("/dashboard");
             }
             
         }
@@ -31,7 +31,14 @@ function LoginPage() {
         }
 
     }
-    getUserInformation();
+    useEffect(() => {
+        if(!localStorage.getItem("accessToken")) {
+
+        }
+        else {
+            getUserInformation();
+        }
+    }, [])
 
 
     // State variables
@@ -71,10 +78,10 @@ function LoginPage() {
         let data = await response.json();
         const {loggedIn, user, accessToken} = data;
 
-        // If login is successful, set the JWT to local storage and navigate to the landing page
+        // If login is successful, set the JWT to local storage and navigate to the dashboard
         if (loggedIn) {
           localStorage.setItem("accessToken", accessToken);
-          navigate("/landing");
+          navigate("/dashboard");
         }
         // Else
         else {

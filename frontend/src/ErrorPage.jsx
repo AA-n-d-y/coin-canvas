@@ -1,18 +1,27 @@
 // JSX file for a page that does not exist
 
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function ErrorPage() {  
+    const navigate = useNavigate();
+
+    // Function for logging out
+    function logout() {
+        // Removing the token from local storage and redirecting the user back to the login page
+        localStorage.removeItem("accessToken");
+    }
+
+    
+    // Returning
     return (
       <>
         {/* Navigation bar */}
         <header>
           <nav className = "navbar navbar-expand-md bg-primary fs-3">
               <span className = "fw-normal text-light fs-3 px-4 py-2"> CoinCanvas </span>
-              <form action = "/dashboard" method = "GET">
-                <input type = "submit" value = "Dashboard" class = "btn btn-dark text-white fs-5 mx-2"></input> 
-              </form> 
+              <NavLink to = "/dashboard" className = "btn btn-dark text-white fs-5 mx-2"> Dashboard </NavLink>
+              <NavLink to = "/logout" className = "btn btn-dark text-white fs-5 mx-2" onClick = {logout}> Sign out </NavLink>
           </nav>       
         </header>   
 

@@ -1,13 +1,13 @@
 // JSX file for the registration page
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function RegisterPage() {  
     const navigate = useNavigate();
     
-    /// If the user is already logged in, redirect to the landing page
+    /// If the user is already logged in, redirect to the dashboard
     // Function for getting the user details
     async function getUserInformation() {
         // Finding the account
@@ -19,9 +19,9 @@ function RegisterPage() {
             }
             });
 
-            // If the response is ok, navigate to the landing page
+            // If the response is ok, navigate to the dashboard
             if (response.status === 200) {
-                navigate("/landing");
+                navigate("/dashboard");
             }
             
         }
@@ -31,7 +31,14 @@ function RegisterPage() {
         }
 
     }
-    getUserInformation();
+    useEffect(() => {
+        if(!localStorage.getItem("accessToken")) {
+
+        }
+        else {
+            getUserInformation();
+        }
+    }, [])
 
     
     // State variables

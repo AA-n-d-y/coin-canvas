@@ -36,6 +36,7 @@ function DashboardPage() {
             
             // Else if login is successful, set some state variable values
             setFirstName(firstName);
+            setLastName(lastName);
             
         }
         
@@ -51,7 +52,6 @@ function DashboardPage() {
             getUserInformation();
         }
     }, [])
-    getUserInformation();
     
 
     // Returning
@@ -67,7 +67,7 @@ function DashboardPage() {
                 {/* Welcome */}
                 <div className = "col-10"> 
                     <div className = "fw-bold fs-3">
-                        Welcome, {firstName}
+                        Welcome, {firstName} {lastName}
                     </div>
                 </div>
 

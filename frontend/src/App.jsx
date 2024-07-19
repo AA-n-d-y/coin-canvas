@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import LandingPage from './LandingPage.jsx';
 import LoginPage from './LoginPage.jsx';
 import RegisterPage from './RegisterPage.jsx';
 import DashboardPage from './DashboardPage.jsx';
@@ -16,8 +15,7 @@ function App() {
     <>
     {/* Pages */}
       <Routes>
-        <Route path = "/" element = {<LandingPage/>} />
-        <Route path = "/landing" element = {<LandingPage/>} />
+        <Route path = "/" element = {<DashboardPage/>} />
         <Route path = "/login" element = {<LoginPage/>} />
         <Route path = "/register" element = {<RegisterPage/>} />
         <Route path = "/dashboard" element = {<DashboardPage/>} />
