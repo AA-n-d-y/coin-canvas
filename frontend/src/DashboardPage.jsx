@@ -67,7 +67,7 @@ function DashboardPage() {
                 {/* Welcome */}
                 <div className = "col-10"> 
                     <div className = "fw-bold fs-3">
-                        Welcome, {firstName} {lastName}
+                        Welcome, <br></br> {firstName} {lastName}
                     </div>
                 </div>
 

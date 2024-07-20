@@ -93,7 +93,6 @@ function LoginPage() {
 
       }
 
-      
     }
 
 
@@ -103,7 +102,7 @@ function LoginPage() {
         {/* Navigation bar */}
         <header>
           <nav className = "navbar navbar-expand-md bg-primary fs-3">
-              <span className = "fw-normal text-light fs-3 px-4 py-2"> CoinCanvas </span>
+              <span className = "fw-bold text-light fs-3 px-4 py-2"> CoinCanvas </span>
           </nav>       
         </header> 
         

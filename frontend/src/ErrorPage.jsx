@@ -19,9 +19,9 @@ function ErrorPage() {
         {/* Navigation bar */}
         <header>
           <nav className = "navbar navbar-expand-md bg-primary fs-3">
-              <span className = "fw-normal text-light fs-3 px-4 py-2"> CoinCanvas </span>
-              <NavLink to = "/dashboard" className = "btn btn-dark text-white fs-5 mx-2"> Dashboard </NavLink>
-              <NavLink to = "/logout" className = "btn btn-dark text-white fs-5 mx-2" onClick = {logout}> Sign out </NavLink>
+              <span className = "fw-bold text-light fs-3 px-4 py-2"> CoinCanvas </span>
+              <NavLink to = "/dashboard" className = "btn border-3 text-white fs-5 mx-1"> Dashboard </NavLink>
+              <NavLink to = "/logout" className = "btn border-3 text-white fs-5 mx-1" onClick = {logout}> Sign out </NavLink>
           </nav>       
         </header>   
 
