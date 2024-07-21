@@ -41,19 +41,52 @@ function TransactionsPage() {
         
 
         {/* Content */}
-        <main className = "container p-0" style = {{marginTop: "100px"}}>
-            <div className = "row justify-content-center">
-                {/* Welcome */}
-                <div className = "col-10"> 
-                    <div className = "fw-bold fs-3">
-                        Transactions
-                    </div>
-                </div>
+        <main className = "container" style = {{marginTop: "100px"}}>
+            
+            {/* Content beginning */}
+            <div className = "row d-flex justify-content-center">
 
-                {/* Overview */}
-                
+                {/* Content header */}
+                <span className = "col-8 fw-bold fs-3 mb-1">
+                    Transactions History
+                </span>
+
+                {/* Transactions */}
+                <NavLink to = "/addTransactions" className = "col-md-2 col-8 btn bg-dark text-light fs-5 mx-1 mb-3"> + Add new </NavLink> 
 
             </div>
+
+            {/* Transactions table */}
+            <div className = "row justify-content-center mt-5">
+                <div className = "col-10">
+                    <div class="table-responsive-sm">
+                        <table class="table">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope = "col"> Date </th>
+                                    <th scope = "col"> Activity </th>
+                                    <th scope = "col"> Amount </th>
+                                    <th scope = "col"> Type </th>
+                                    <th scope = "col"> Description </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row" className = "py-3"> Jul 20, 2024 </th>
+                                    <td className = "py-3"> Compensation </td>
+                                    <td className = "py-3"> 
+                                        <span className = "rounded border border-2 border-primary text-primary px-2 py-1"> $1000 </span>
+                                    </td>
+                                    <td className = "py-3"> Income </td>
+                                    <td className = "py-3"> Received payment </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </main>
 
       </>
