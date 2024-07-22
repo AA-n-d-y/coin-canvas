@@ -1,4 +1,4 @@
-// JSX file for the dashboard page
+// JSX file for the transactions page
 
 import NavBar from './NavBar';
 import { useState, useEffect } from 'react';
@@ -73,11 +73,17 @@ function TransactionsPage() {
                             <tbody>
                                 <tr>
                                     <th scope="row" className = "py-3"> Jul 20, 2024 </th>
+
                                     <td className = "py-3"> Compensation </td>
+
                                     <td className = "py-3"> 
                                         <span className = "rounded border border-2 border-primary text-primary px-2 py-1"> $1000 </span>
                                     </td>
-                                    <td className = "py-3"> Income </td>
+
+                                    <td className = "py-3"> 
+                                        <span className = "rounded border border-2 border-success text-success px-2 py-1"> Income </span>
+                                    </td>
+
                                     <td className = "py-3"> Received payment </td>
                                 </tr>
                             </tbody>

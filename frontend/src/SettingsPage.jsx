@@ -1,4 +1,4 @@
-// JSX file for the dashboard page
+// JSX file for the settings page
 
 import NavBar from './NavBar';
 import { useState, useEffect } from 'react';
@@ -13,7 +13,7 @@ function SettingsPage() {
 
 
     // Function for getting the user details
-    async function getTransactionInformation() {
+    async function getUserInformation() {
         // Finding the account
         try {
             
@@ -28,7 +28,7 @@ function SettingsPage() {
           navigate("/login");
         }
         else {
-            getTransactionInformation();
+            getUserInformation();
         }
     }, [])
     
@@ -43,14 +43,14 @@ function SettingsPage() {
         {/* Content */}
         <main className = "container p-0" style = {{marginTop: "100px"}}>
             <div className = "row justify-content-center">
-                {/* Welcome */}
+                {/* Title */}
                 <div className = "col-10"> 
                     <div className = "fw-bold fs-3">
                         Settings
                     </div>
                 </div>
 
-                {/* Overview */}
+                {/* Settings */}
                 
 
             </div>

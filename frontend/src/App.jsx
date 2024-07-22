@@ -8,6 +8,7 @@ import RegisterPage from './RegisterPage.jsx';
 import DashboardPage from './DashboardPage.jsx';
 import ErrorPage from './ErrorPage.jsx';
 import TransactionsPage from './TransactionsPage.jsx';
+import AddTransactions from './AddTransactions.jsx';
 import SettingsPage from './SettingsPage.jsx';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path = "/register" element = {<RegisterPage/>} />
         <Route path = "/dashboard" element = {<DashboardPage/>} />
         <Route path = "/transactions" element = {<TransactionsPage/>} />
+        <Route path = "/addTransactions" element = {<AddTransactions/>} />
         <Route path = "/settings" element = {<SettingsPage/>} />
         <Route path = "/logout" element = {<LoginPage/>} />
         <Route path = "*" element = {<ErrorPage/>} />
