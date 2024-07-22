@@ -126,7 +126,7 @@ function RegisterPage() {
         
 
         {/* Registry section */}
-        <main className = "container p-0" style = {{marginTop: "100px"}}>
+        <main className = "container" style = {{marginTop: "75px"}}>
           <div className = "row justify-content-center">
             <div className = "col-xl-3 col-lg-3 col-md-4 col-sm-4 col-7">
 
@@ -163,7 +163,7 @@ function RegisterPage() {
               </form> 
 
               {/* Log in */}   
-              <NavLink to = "/login" className = "nav-link text-center text-primary w-100" style = {{textDecoration: "underline"}}> Log in </NavLink> 
+              <NavLink to = "/login" className = "nav-link text-center text-primary mb-5 w-100" style = {{textDecoration: "underline"}}> Log in </NavLink> 
 
             </div>
           </div>

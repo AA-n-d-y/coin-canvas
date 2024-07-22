@@ -41,7 +41,7 @@ function TransactionsPage() {
         
 
         {/* Content */}
-        <main className = "container" style = {{marginTop: "100px"}}>
+        <main className = "container" style = {{marginTop: "75px"}}>
             
             {/* Content beginning */}
             <div className = "row d-flex justify-content-center">

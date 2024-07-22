@@ -108,7 +108,7 @@ function LoginPage() {
         
 
         {/* Login section */}
-        <main className = "container p-0" style = {{marginTop: "100px"}}>
+        <main className = "container" style = {{marginTop: "75px"}}>
           <div className = "row justify-content-center">
             <div className = "col-xl-3 col-lg-3 col-md-4 col-sm-4 col-7">
 
@@ -133,7 +133,7 @@ function LoginPage() {
               </form> 
 
               {/* Register */}   
-              <NavLink to = "/register" className = "nav-link text-center text-primary w-100" style = {{textDecoration: "underline"}}> Register </NavLink> 
+              <NavLink to = "/register" className = "nav-link text-center text-primary mb-5 w-100" style = {{textDecoration: "underline"}}> Register </NavLink> 
 
             </div>
           </div>

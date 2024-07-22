@@ -62,7 +62,7 @@ function DashboardPage() {
         
 
         {/* Content */}
-        <main className = "container p-0" style = {{marginTop: "100px"}}>
+        <main className = "container" style = {{marginTop: "75px"}}>
             <div className = "row justify-content-center">
                 {/* Welcome */}
                 <div className = "col-10"> 

@@ -27,7 +27,7 @@ function ErrorPage() {
 
 
         {/* Text */}
-        <main className = "container p-0" style = {{marginTop: "100px"}}>
+        <main className = "container" style = {{marginTop: "75px"}}>
             <div className = "row justify-content-center">
                 <div className = "col-6"> 
                     <div className = "fw-bold text-center fs-3">
