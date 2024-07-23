@@ -125,6 +125,7 @@ function LoginPage() {
                 <input value = {password} type = "password" placeholder = "Password" className = "form-control mb-3" onChange = {(event) => {setPassword(event.target.value)}} required></input> 
                 </div>
 
+                {/* Error pop-up */}
                 {userError && <div className = "text-danger mb-3"> {userError} </div>}
 
                 <div>
