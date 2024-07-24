@@ -5,6 +5,7 @@
 /// Setup
 require('dotenv').config(); // Load environment variables from .env
 const mongoose = require("mongoose");
+const transactionSchema = require("./Transaction.js");
 
 
 // User schema
@@ -13,7 +14,8 @@ const userSchema = new mongoose.Schema({
     lastName: String,
     email: String,
     username: String,
-    password: String
+    password: String,
+    transactions: [transactionSchema] // Holding the transactions in this array
 });
 
 // User model

@@ -5,6 +5,8 @@
 /// Setup
 
 require('dotenv').config(); // Load environment variables from .env
+const User = require("./User.js");
+const Transaction = require("./Transaction.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 let PORT = process.env.PORT;
@@ -28,7 +30,6 @@ async function connectDB() {
     }
 }
 connectDB();
-const User = require("./User.js");
 
 
 
@@ -99,7 +100,7 @@ app.post("/register", async (request, response) => {
     response.status(201).json({createdUser: true});
   }
   
-  catch(error) {
+  catch (error) {
     console.log("Error in creating an account");
   }
 });
@@ -125,11 +126,19 @@ app.post("/login", async (request, response) => {
     }
   }
   
-  catch(error) {
+  catch (error) {
     // Otherwise, do not log them in
     response.status(404).json({loggedIn: false, user: null, accessToken: null});
     console.log(error);
   } 
+});
+
+
+// Post request (adding a transaction)
+app.post("/addTransaction", authenticateToken, async (request, response) => {
+
+
+
 });
 
 
