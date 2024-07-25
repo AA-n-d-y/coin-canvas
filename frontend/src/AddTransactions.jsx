@@ -1,22 +1,15 @@
 // JSX file for the adding transactions page
 
 import NavBar from './NavBar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, act } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function AddTransactions() {  
     const navigate = useNavigate();
 
-    // Checking if the user is logged in
-    useEffect(() => {
-        if(!localStorage.getItem("accessToken")) {
-          navigate("/login");
-        }
-    }, [])
-    
-    
     // State variables
+    const [userName, setUsername] = useState(null);
     const [date, setDate] = useState("");
     const [activity, setActivity] = useState("");
     const [amount, setAmount] = useState("");
@@ -24,6 +17,42 @@ function AddTransactions() {
     const [description, setDescription] = useState("");
     const [transactionError, setError] = useState(null);
     const [transactionSuccess, setSuccess] = useState(null);
+
+
+    // Function for getting the user details
+    async function getUserInformation() {
+        // Finding the account
+        try {
+            const response = await fetch("http://localhost:3000" + "/getUser", {
+                method: "GET",
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
+            });
+
+            // If the response was not ok or the username is null, navigate back to the login and destroy the token
+            let data = await response.json();
+            const {username} = data;
+            if (response.status === 401 || username == null) {
+                localStorage.clear();
+                navigate("/login");
+            }
+            setUsername(username);
+            
+        }
+        
+        catch (error) {
+
+        }
+    }
+    useEffect(() => {
+        if(!localStorage.getItem("accessToken")) {
+          navigate("/login");
+        }
+        else {
+            getUserInformation();
+        }
+    }, [])
 
 
     // Function to add the transaction
@@ -51,13 +80,38 @@ function AddTransactions() {
             setSuccess("");
             return;
         }
-
         setError("");
-        setSuccess("Added transaction");
 
         // Adding the transaction
         try {
-            
+            const response = await fetch("http://localhost:3000" + "/addTransaction", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: 
+                  JSON.stringify({
+                        username: userName,
+                        date: date,
+                        activity: activity,
+                        amount: amount,
+                        type: type,
+                        description: description
+                  })
+              });
+            let data = await response.json();
+            const {createdTransaction} = data;
+      
+            // If creation is successful
+            if (createdTransaction) {
+                setError("");
+                setSuccess("Successfully added transaction");
+            }
+            // Else
+            else {
+                setSuccess("");
+                setError("Failed to add transaction");
+            }
         }
 
         catch (error) {

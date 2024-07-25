@@ -6,7 +6,7 @@
 
 require('dotenv').config(); // Load environment variables from .env
 const User = require("./User.js");
-const Transaction = require("./Transaction.js");
+const Transaction = require('./Transaction.js');
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 let PORT = process.env.PORT;
@@ -101,7 +101,7 @@ app.post("/register", async (request, response) => {
   }
   
   catch (error) {
-    console.log("Error in creating an account");
+
   }
 });
 
@@ -129,16 +129,38 @@ app.post("/login", async (request, response) => {
   catch (error) {
     // Otherwise, do not log them in
     response.status(404).json({loggedIn: false, user: null, accessToken: null});
-    console.log(error);
   } 
 });
 
 
 // Post request (adding a transaction)
-app.post("/addTransaction", authenticateToken, async (request, response) => {
+app.post("/addTransaction", async (request, response) => {
+  // Extracting the details
+  const { username, date, activity, amount, type, description } = request.body;
 
+  try {
+    // If the account exists, create the transaction
+    const user = await User.findOne({username: username});
+    
+    if (user != null) {
+      // Create the transaction, add it to the user, and save the user
+      user.transactions.push(new Transaction({date, activity, amount, type, description}));
+      await user.save();
 
+      // Returning things to the client
+      response.status(201).json({createdTransaction: true});
+    }
 
+    // Otherwise, do not create a transaction
+    else {
+      response.status(422).json({createdTransaction: false});
+    }
+  }
+  
+  catch (error) {
+    // Otherwise, do not create a transaction
+    response.status(422).json({createdTransaction: false});
+  } 
 });
 
 

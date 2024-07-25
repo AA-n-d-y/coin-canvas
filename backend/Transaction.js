@@ -1,20 +1,11 @@
-//// JS file for the Transaction schema
+//// JS file for the Transaction model
 
 
 
 /// Setup
 require('dotenv').config(); // Load environment variables from .env
+const transactionSchema = require("./TransactionSchema.js");
 const mongoose = require("mongoose");
 
-
-// Transaction schema
-const transactionSchema = new mongoose.Schema({
-    date: String,
-    activity: String,
-    amount: String,
-    type: String,
-    description: String
-});
-
 // Transaction model
-module.exports = transactionSchema;
+module.exports = mongoose.model("Transactions", transactionSchema);

@@ -5,7 +5,7 @@
 /// Setup
 require('dotenv').config(); // Load environment variables from .env
 const mongoose = require("mongoose");
-const transactionSchema = require("./Transaction.js");
+const transactionSchema = require("./TransactionSchema.js");
 
 
 // User schema
