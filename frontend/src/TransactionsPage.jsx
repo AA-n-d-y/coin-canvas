@@ -52,7 +52,7 @@ function TransactionsPage() {
                 </span>
 
                 {/* Transactions */}
-                <NavLink to = "/addTransactions" className = "col-md-2 col-8 btn bg-dark text-light fs-5 mx-1 mb-3"> + Add new </NavLink> 
+                <NavLink to = "/addTransactions" className = "col-md-2 col-8 btn bg-dark text-light fs-5 mx-1 mb-3 py-2"> + Add new </NavLink> 
 
             </div>
 

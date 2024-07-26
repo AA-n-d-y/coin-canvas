@@ -136,9 +136,12 @@ app.post("/login", async (request, response) => {
 // Post request (adding a transaction)
 app.post("/addTransaction", async (request, response) => {
   // Extracting the details
-  const { username, date, activity, amount, type, description } = request.body;
+  let { username, date, activity, amount, type, description } = request.body;
 
   try {
+    // Making sure the amount doesn't contain the - symbol
+    amount = Math.abs(amount);
+
     // If the account exists, create the transaction
     const user = await User.findOne({username: username});
     

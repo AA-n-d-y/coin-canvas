@@ -70,8 +70,8 @@ function AddTransactions() {
             setSuccess("");
             return;
         }
-        if (amount == "") {
-            setError("Enter an amount");
+        if (amount == "" || isNaN(parseFloat(amount))) {
+            setError("Enter a valid amount");
             setSuccess("");
             return;
         }
@@ -94,7 +94,7 @@ function AddTransactions() {
                         username: userName,
                         date: date,
                         activity: activity,
-                        amount: amount,
+                        amount: parseFloat(amount).toFixed(2),
                         type: type,
                         description: description
                   })
@@ -159,7 +159,7 @@ function AddTransactions() {
                             {/* Amount */}
                             <label htmlFor = "amount" className = "fw-bold mb-2"> Amount </label>
                             <div className = "mb-4">
-                                <input id = "amount" value = {amount} type = "text" placeholder = "Enter an amount" className = "form-control w-100" onChange = {(event) => {setAmount(event.target.value)}} required/>
+                                <input id = "amount" value = {amount} type = "number" placeholder = "Enter an amount" className = "form-control w-100" onChange = {(event) => {setAmount(event.target.value)}} required/>
                             </div>
 
                             {/* Type */}
@@ -171,7 +171,7 @@ function AddTransactions() {
                             </select>
 
                             {/* Description */}
-                            <label htmlFor = "description" className = "fw-bold mb-2"> Amount </label>
+                            <label htmlFor = "description" className = "fw-bold mb-2"> Description </label>
                             <div className = "mb-4">
                                 <textarea id = "description" value = {description} placeholder = "Enter a description (Optional)" className = "form-control w-100" rows = "4" onChange = {(event) => {setDescription(event.target.value)}}></textarea>
                             </div>
