@@ -69,14 +69,13 @@ function authenticateToken(request, response, next) {
 // Get request (getting a user's information)
 app.get("/getUser", authenticateToken, async (request, response) => {
   // Getting the user information
-  const user = await User.findById(request.user._id);
+  const user = request.user;
   const {firstName, lastName, email, username} = user;
   
-  
+
   // Returning the information
   response.status(200).json({firstName, lastName, email, username});
   return;
-  
 });
 
 
@@ -134,7 +133,7 @@ app.post("/login", async (request, response) => {
 
 
 // Post request (adding a transaction)
-app.post("/addTransaction", async (request, response) => {
+app.post("/addTransaction", authenticateToken, async (request, response) => {
   // Extracting the details
   let { username, date, activity, amount, type, description } = request.body;
 

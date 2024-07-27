@@ -14,9 +14,9 @@ function LoginPage() {
         try {
             const response = await fetch("http://localhost:3000" + "/getUser", {
             method: "GET",
-            headers: {
-                "authorization": "Bearer " + localStorage.getItem("accessToken")
-            }
+              headers: {
+                  "authorization": "Bearer " + localStorage.getItem("accessToken")
+              }
             });
 
             // If the response is ok, navigate to the dashboard
@@ -75,6 +75,7 @@ function LoginPage() {
               password: password
             })
         });
+        
         let data = await response.json();
         const {loggedIn, user, accessToken} = data;
 

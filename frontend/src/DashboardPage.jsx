@@ -21,23 +21,23 @@ function DashboardPage() {
         try {
             const response = await fetch("http://localhost:3000" + "/getUser", {
             method: "GET",
-            headers: {
-                "authorization": "Bearer " + localStorage.getItem("accessToken")
-            }
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
             });
 
-            // If the response was not ok or the username is null, navigate back to the login and destroy the token
-            let data = await response.json();
-            const {firstName, lastName, email, username} = data;
-            if (response.status === 401 || username == null) {
+            // If the response status is unauthorized, navigate back to the login and destroy the token
+            if (response.status === 401) {
                 localStorage.clear();
                 navigate("/login");
             }
             
+            let data = await response.json();
+            const {firstName, lastName, email, username} = data;
+            
             // Else if login is successful, set some state variable values
             setFirstName(firstName);
             setLastName(lastName);
-            
         }
         
         catch (error) {
@@ -46,7 +46,7 @@ function DashboardPage() {
     }
     useEffect(() => {
         if(!localStorage.getItem("accessToken")) {
-          navigate("/login");
+            navigate("/login");
         }
         else {
             getUserInformation();

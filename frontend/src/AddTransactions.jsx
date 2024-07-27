@@ -30,15 +30,16 @@ function AddTransactions() {
                 }
             });
 
-            // If the response was not ok or the username is null, navigate back to the login and destroy the token
-            let data = await response.json();
-            const {username} = data;
-            if (response.status === 401 || username == null) {
+            // If the response status is unauthorized, navigate back to the login and destroy the token
+            if (response.status === 401) {
                 localStorage.clear();
                 navigate("/login");
             }
-            setUsername(username);
+
+            let data = await response.json();
+            const {username} = data;
             
+            setUsername(username);
         }
         
         catch (error) {
@@ -87,7 +88,8 @@ function AddTransactions() {
             const response = await fetch("http://localhost:3000" + "/addTransaction", {
                 method: "POST",
                 headers: {
-                  "Content-Type": "application/json"
+                    "authorization": "Bearer " + localStorage.getItem("accessToken"),
+                    "Content-Type": "application/json"
                 },
                 body: 
                   JSON.stringify({
@@ -99,6 +101,13 @@ function AddTransactions() {
                         description: description
                   })
               });
+
+            // Making sure the user's login is still valid
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+            }
+
             let data = await response.json();
             const {createdTransaction} = data;
       
