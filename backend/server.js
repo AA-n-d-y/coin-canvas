@@ -142,11 +142,12 @@ app.post("/addTransaction", authenticateToken, async (request, response) => {
     amount = Math.abs(amount);
 
     // If the account exists, create the transaction
-    const user = await User.findOne({username: username});
+    const user = await User.findById(request.user._id);
     
     if (user != null) {
       // Create the transaction, add it to the user, and save the user
       user.transactions.push(new Transaction({date, activity, amount, type, description}));
+      user.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
       await user.save();
 
       // Returning things to the client
@@ -163,6 +164,30 @@ app.post("/addTransaction", authenticateToken, async (request, response) => {
     // Otherwise, do not create a transaction
     response.status(422).json({createdTransaction: false});
   } 
+});
+
+
+// Get request (getting the transactions)
+app.get("/getTransactions", authenticateToken, async (request, response) => {
+  try {
+    // If the account exists, return the transactions
+    const user = await User.findById(request.user._id);
+
+    if (user != null) {
+      const transactions = user.transactions;
+      response.status(200).json({transactions: transactions});
+    }
+    
+    // Otherwise, do not return the transactions
+    else {
+      response.status(401).json({transactions: null});
+    }
+  }
+
+  catch (error) {
+    // Otherwise, do not return the transactions
+    response.status(401).json({transactions: null});
+  }
 });
 
 

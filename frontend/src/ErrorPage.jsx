@@ -1,10 +1,22 @@
 // JSX file for a page that does not exist
 
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
 
 function ErrorPage() {  
     const navigate = useNavigate();
+
+    // Checking for login
+    useEffect(() => {
+        if(!localStorage.getItem("accessToken")) {
+          navigate("/login");
+        }
+        else {
+
+        }
+    }, [])
+
 
     // Function for logging out
     function logout() {

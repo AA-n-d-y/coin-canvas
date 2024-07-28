@@ -9,14 +9,29 @@ function TransactionsPage() {
     const navigate = useNavigate();
 
     // State variables
-    const [firstName, setFirstName] = useState("");
+    const [transactionData, setTransactionData] = useState([]);
 
 
-    // Function for getting the user details
+    // Function for getting the transaction details
     async function getTransactionInformation() {
-        // Finding the account
+        // Finding the account and transactions
         try {
-            
+            const response = await fetch("http://localhost:3000" + "/getTransactions", {
+                method: "GET",
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
+            });
+
+            // Making sure the user's login is still valid
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+            }
+
+            let data = await response.json();
+            const {transactions} = data;
+            setTransactionData(transactions);
         }
         
         catch (error) {
@@ -59,9 +74,9 @@ function TransactionsPage() {
             {/* Transactions table */}
             <div className = "row justify-content-center mt-5">
                 <div className = "col-10">
-                    <div class="table-responsive-sm">
-                        <table class="table">
-                            <thead class="table-dark">
+                    <div className="table-responsive-sm">
+                        <table className="table">
+                            <thead className="table-dark">
                                 <tr>
                                     <th scope = "col"> Date </th>
                                     <th scope = "col"> Activity </th>
@@ -71,21 +86,23 @@ function TransactionsPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row" className = "py-3"> Jul 20, 2024 </th>
+                                {transactionData.map((transaction, index) => (
+                                    <tr key = {transaction._id}>
+                                        <th scope="row" className = "py-3"> {transaction.date} </th>
 
-                                    <td className = "py-3"> Compensation </td>
+                                        <td className = "py-3"> {transaction.activity} </td>
 
-                                    <td className = "py-3"> 
-                                        <span className = "rounded border border-2 border-primary text-primary px-2 py-1"> $1000 </span>
-                                    </td>
+                                        <td className = "py-3"> 
+                                            <span className = "rounded border border-2 border-primary text-primary px-2 py-1"> ${transaction.amount} </span>
+                                        </td>
 
-                                    <td className = "py-3"> 
-                                        <span className = "rounded border border-2 border-success text-success px-2 py-1"> Income </span>
-                                    </td>
+                                        <td className = "py-3"> 
+                                            <span className = "rounded border border-2 border-success text-success px-2 py-1"> {transaction.type} </span>
+                                        </td>
 
-                                    <td className = "py-3"> Received payment </td>
-                                </tr>
+                                        <td className = "py-3"> {transaction.description} </td>
+                                    </tr>
+                                ))}
                             </tbody>
 
                         </table>
