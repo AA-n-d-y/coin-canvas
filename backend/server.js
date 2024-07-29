@@ -100,7 +100,7 @@ app.post("/register", async (request, response) => {
   }
   
   catch (error) {
-
+    response.status(422).json({createdUser: false});
   }
 });
 
@@ -138,15 +138,28 @@ app.post("/addTransaction", authenticateToken, async (request, response) => {
   let { username, date, activity, amount, type, description } = request.body;
 
   try {
-    // Making sure the amount doesn't contain the - symbol
+    type = type.toUpperCase();
+
+    // Making sure the amount doesn't contain the - symbol and formatting it
     amount = Math.abs(amount);
+    amount = parseFloat(amount).toFixed(2);
+    amount = amount.toString();
 
     // If the account exists, create the transaction
     const user = await User.findById(request.user._id);
     
     if (user != null) {
+
+      let colour;
+      if (type == "EXPENSE") {
+        colour = "#fe4545";
+      }
+      else {
+        colour = "#02d882";
+      }
+
       // Create the transaction, add it to the user, and save the user
-      user.transactions.push(new Transaction({date, activity, amount, type, description}));
+      user.transactions.push(new Transaction({date, activity, amount, type, colour, description}));
       user.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
       await user.save();
 
@@ -156,7 +169,7 @@ app.post("/addTransaction", authenticateToken, async (request, response) => {
 
     // Otherwise, do not create a transaction
     else {
-      response.status(422).json({createdTransaction: false});
+      response.status(401).json({createdTransaction: false});
     }
   }
   
@@ -186,7 +199,35 @@ app.get("/getTransactions", authenticateToken, async (request, response) => {
 
   catch (error) {
     // Otherwise, do not return the transactions
-    response.status(401).json({transactions: null});
+    response.status(409).json({transactions: null});
+  }
+});
+
+
+// Delete request (deleting a transaction)
+app.delete("/deleteTransaction", authenticateToken, async (request, response) => {
+  const {transactionID} = request.body;
+
+  try {
+    // If the account exists, delete the transaction
+    const user = await User.findById(request.user._id);
+
+    if (user != null) {
+      let transactions = user.transactions.filter(transaction => transaction._id != transactionID);
+      user.transactions = transactions;
+      await user.save();
+      response.status(200);
+    }
+    
+    // Otherwise, do not delete the transaction
+    else {
+      response.status(401);
+    }
+  }
+
+  catch (error) {
+    // Otherwise, do not delete the transaction
+    response.status(409);
   }
 });
 

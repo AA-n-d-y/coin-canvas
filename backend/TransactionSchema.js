@@ -13,6 +13,7 @@ const transactionSchema = new mongoose.Schema({
     activity: String,
     amount: String,
     type: String,
+    colour: String,
     description: {
         type: String,
         required: false

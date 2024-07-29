@@ -45,7 +45,40 @@ function TransactionsPage() {
         else {
             getTransactionInformation();
         }
-    }, [])
+    }, [transactionData])
+
+
+    // Function to delete a transaction
+    async function deleteTransaction(transactionID) {
+        // Deleting the transaction
+        try {
+            const response = await fetch("http://localhost:3000" + "/deleteTransaction", {
+                method: "DELETE",
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken"),
+                    "Content-Type": "application/json"
+                },
+                body: 
+                  JSON.stringify({
+                        transactionID: transactionID
+                  })
+              });
+
+            // Making sure the user's login is still valid
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+            }
+            
+            // Calling the function to update the list
+            getTransactionInformation();
+        }
+
+        catch (error) {
+
+        }
+
+    }
     
 
     // Returning
@@ -72,7 +105,7 @@ function TransactionsPage() {
             </div>
 
             {/* Transactions table */}
-            <div className = "row justify-content-center mt-5">
+            <div className = "row justify-content-center mt-5 mb-5">
                 <div className = "col-10">
                     <div className="table-responsive-sm">
                         <table className="table">
@@ -83,24 +116,49 @@ function TransactionsPage() {
                                     <th scope = "col"> Amount </th>
                                     <th scope = "col"> Type </th>
                                     <th scope = "col"> Description </th>
+                                    <th scope = "col"> </th>
+                                    <th scope = "col"> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {transactionData.map((transaction, index) => (
                                     <tr key = {transaction._id}>
+                                        {/* Date */}
                                         <th scope="row" className = "py-3"> {transaction.date} </th>
 
+                                        {/* Activity */}
                                         <td className = "py-3"> {transaction.activity} </td>
 
+                                        {/* Amount */}
                                         <td className = "py-3"> 
-                                            <span className = "rounded border border-2 border-primary text-primary px-2 py-1"> ${transaction.amount} </span>
+                                            <span className = "border border-2 border-white text-primary px-3 py-2" style = {{ backgroundColor: "#e0edfe", borderRadius: "20px"}}> ${transaction.amount} </span>
                                         </td>
 
+                                        {/* Type */}
                                         <td className = "py-3"> 
-                                            <span className = "rounded border border-2 border-success text-success px-2 py-1"> {transaction.type} </span>
+                                            <span className = "fw-bold" style = {{ color: transaction.colour }}> {transaction.type} </span>
                                         </td>
 
+                                        {/* Description */}
                                         <td className = "py-3"> {transaction.description} </td>
+
+                                        {/* Edit */}  
+                                        <td> 
+                                            <input type = "submit" value = "EDIT" className = "border border-2 border-primary fw-bold px-3 py-2" 
+                                            style = {{ color: "#2c50fe", backgroundColor: "#dae0fb", borderRadius: "20px"}}/>
+                                        </td>
+
+                                        {/* Delete */}  
+                                        <td>
+                                            <input type = "submit" value = "DELETE" className = "border border-2 border-danger text-danger fw-bold px-3 py-2" 
+                                            style = {{ backgroundColor: "#ffabab", borderRadius: "20px"}} onClick = 
+                                                {(event) => {
+                                                    event.preventDefault();
+                                                    deleteTransaction(transaction._id);
+                                                }}
+                                            />
+                                        </td>
+
                                     </tr>
                                 ))}
                             </tbody>
