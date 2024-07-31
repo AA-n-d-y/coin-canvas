@@ -69,9 +69,8 @@ function authenticateToken(request, response, next) {
 // Get request (getting a user's information)
 app.get("/getUser", authenticateToken, async (request, response) => {
   // Getting the user information
-  const user = request.user;
+  const user = await User.findById(request.user._id);
   const {firstName, lastName, email, username} = user;
-  
 
   // Returning the information
   response.status(200).json({firstName, lastName, email, username});
@@ -213,8 +212,8 @@ app.delete("/deleteTransaction", authenticateToken, async (request, response) =>
     const user = await User.findById(request.user._id);
 
     if (user != null) {
-      let transactions = user.transactions.filter(transaction => transaction._id != transactionID);
-      user.transactions = transactions;
+      let newTransactions = user.transactions.filter(transaction => transaction._id != transactionID);
+      user.transactions = newTransactions;
       await user.save();
       response.status(200);
     }

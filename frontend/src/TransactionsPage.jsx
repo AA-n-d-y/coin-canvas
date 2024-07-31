@@ -40,12 +40,12 @@ function TransactionsPage() {
     }
     useEffect(() => {
         if(!localStorage.getItem("accessToken")) {
-          navigate("/login");
+            navigate("/login");
         }
         else {
             getTransactionInformation();
         }
-    }, [transactionData])
+    }, [])
 
 
     // Function to delete a transaction
@@ -69,15 +69,11 @@ function TransactionsPage() {
                 localStorage.clear();
                 navigate("/login");
             }
-            
-            // Calling the function to update the list
-            getTransactionInformation();
         }
 
         catch (error) {
 
         }
-
     }
     
 
@@ -150,13 +146,16 @@ function TransactionsPage() {
 
                                         {/* Delete */}  
                                         <td>
-                                            <input type = "submit" value = "DELETE" className = "border border-2 border-danger text-danger fw-bold px-3 py-2" 
-                                            style = {{ backgroundColor: "#ffabab", borderRadius: "20px"}} onClick = 
-                                                {(event) => {
-                                                    event.preventDefault();
-                                                    deleteTransaction(transaction._id);
-                                                }}
-                                            />
+                                            <form action = "/transactions" method = "GET">
+                                                <input type = "submit" value = "DELETE" className = "border border-2 border-danger text-danger fw-bold px-3 py-2" 
+                                                    style = {{ backgroundColor: "#ffabab", borderRadius: "20px"}} 
+                                                    onClick = 
+                                                        {() => {
+                                                            deleteTransaction(transaction._id);
+                                                        }}
+                                                > 
+                                                </input>
+                                            </form>
                                         </td>
 
                                     </tr>
