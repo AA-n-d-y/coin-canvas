@@ -10,6 +10,7 @@ import ErrorPage from './ErrorPage.jsx';
 import TransactionsPage from './TransactionsPage.jsx';
 import AddTransactions from './AddTransactions.jsx';
 import SettingsPage from './SettingsPage.jsx';
+import EditTransaction from './EditTransaction.jsx';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -24,6 +25,7 @@ function App() {
         <Route path = "/dashboard" element = {<DashboardPage/>} />
         <Route path = "/transactions" element = {<TransactionsPage/>} />
         <Route path = "/addTransactions" element = {<AddTransactions/>} />
+        <Route path = "/editTransaction" element = {<EditTransaction/>} />
         <Route path = "/settings" element = {<SettingsPage/>} />
         <Route path = "/logout" element = {<LoginPage/>} />
         <Route path = "*" element = {<ErrorPage/>} />

@@ -203,6 +203,33 @@ app.get("/getTransactions", authenticateToken, async (request, response) => {
 });
 
 
+// Get request (getting a transaction)
+app.get("/getTransaction/:transactionID", authenticateToken, async (request, response) => {
+  const transactionID  = request.params.transactionID;
+
+  try {
+    // If the account exists, return the transaction
+    const user = await User.findById(request.user._id);
+
+    if (user != null) {
+      const transaction = user.transactions.find(t => t._id == transactionID);
+      response.status(200).json({transaction: transaction, 
+        tDate: transaction.date, tActivity: transaction.activity, tAmount: transaction.amount, tType: transaction.type, tDescription: transaction.description});
+    }
+    
+    // Otherwise, do not return the transaction
+    else {
+      response.status(401).json({transaction: null});
+    }
+  }
+
+  catch (error) {
+    // Otherwise, do not return the transaction
+    response.status(409).json({transaction: null});
+  }
+});
+
+
 // Delete request (deleting a transaction)
 app.delete("/deleteTransaction", authenticateToken, async (request, response) => {
   const {transactionID} = request.body;
@@ -228,6 +255,58 @@ app.delete("/deleteTransaction", authenticateToken, async (request, response) =>
     // Otherwise, do not delete the transaction
     response.status(409);
   }
+});
+
+
+// Patch request (editing a transaction)
+app.patch("/editTransaction", authenticateToken, async (request, response) => {
+  // Extracting the details
+  let {transactionID, date, activity, amount, type, description } = request.body;
+
+  try {
+    type = type.toUpperCase();
+
+    // Making sure the amount doesn't contain the - symbol and formatting it
+    amount = Math.abs(amount);
+    amount = parseFloat(amount).toFixed(2);
+    amount = amount.toString();
+
+    // If the account exists, edit the transaction
+    const user = await User.findById(request.user._id);
+    
+    if (user != null) {
+
+      let colour;
+      if (type == "EXPENSE") {
+        colour = "#fe4545";
+      }
+      else {
+        colour = "#02d882";
+      }
+
+      // Edit the transaction, and save the user
+      user.transactions.find(transaction => transaction._id == transactionID).date = date;
+      user.transactions.find(transaction => transaction._id == transactionID).activity = activity;
+      user.transactions.find(transaction => transaction._id == transactionID).amount = amount;
+      user.transactions.find(transaction => transaction._id == transactionID).type = type;
+      user.transactions.find(transaction => transaction._id == transactionID).description = description;
+      user.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+      await user.save();
+
+      // Returning things to the client
+      response.status(200).json({editedTransaction: true});
+    }
+
+    // Otherwise, do not edit the transaction
+    else {
+      response.status(401).json({editedTransaction: false});
+    }
+  }
+  
+  catch (error) {
+    // Otherwise, do not edit the transaction
+    response.status(422).json({editedTransaction: false});
+  } 
 });
 
 

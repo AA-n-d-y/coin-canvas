@@ -14,7 +14,7 @@ function TransactionsPage() {
 
     // Function for getting the transaction details
     async function getTransactionInformation() {
-        // Finding the account and transactions
+        // Finding the transactions
         try {
             const response = await fetch("http://localhost:3000" + "/getTransactions", {
                 method: "GET",
@@ -141,7 +141,12 @@ function TransactionsPage() {
                                         {/* Edit */}  
                                         <td> 
                                             <input type = "submit" value = "EDIT" className = "border border-2 border-primary fw-bold px-3 py-2" 
-                                            style = {{ color: "#2c50fe", backgroundColor: "#dae0fb", borderRadius: "20px"}}/>
+                                                style = {{ color: "#2c50fe", backgroundColor: "#dae0fb", borderRadius: "20px"}}
+                                                onClick = 
+                                                    {() => {
+                                                        navigate("/editTransaction?id=" + transaction._id);
+                                                    }}
+                                            />
                                         </td>
 
                                         {/* Delete */}  

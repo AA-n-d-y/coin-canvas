@@ -1,11 +1,11 @@
-// JSX file for the adding transactions page
+// JSX file for the editing transactions page
 
 import NavBar from './NavBar';
 import { useState, useEffect, act } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './App.css';
 
-function AddTransactions() {  
+function EditTransaction() {  
     const navigate = useNavigate();
 
     // State variables
@@ -17,29 +17,45 @@ function AddTransactions() {
     const [description, setDescription] = useState("");
     const [transactionError, setError] = useState(null);
     const [transactionSuccess, setSuccess] = useState(null);
+    const [transactionID, setTransactionID] = useState(new URLSearchParams(useLocation().search).get("id"));
+    const [typeIncome, setTypeIncome] = useState("");
+    const [typeExpense, setTypeExpense] = useState("");
+    const [typeValue, setTypeValue] = useState("");
 
 
-    // Function for getting the user details
-    async function getUserInformation() {
-        // Finding the account
+    // Function for getting the transaction details
+    async function getTransactionInformation() {
+        // Finding the transaction
         try {
-            const response = await fetch("http://localhost:3000" + "/getUser", {
+            const response = await fetch("http://localhost:3000" + "/getTransaction/" + transactionID, {
                 method: "GET",
                 headers: {
                     "authorization": "Bearer " + localStorage.getItem("accessToken")
                 }
             });
 
-            // If the response status is unauthorized, navigate back to the login and destroy the token
+            // Making sure the user's login is still valid
             if (response.status === 401) {
                 localStorage.clear();
                 navigate("/login");
             }
 
             let data = await response.json();
-            const {username} = data;
-            
-            setUsername(username);
+            const {tDate, tActivity, tAmount, tType, tDescription} = data;
+            setDate(tDate);
+            setActivity(tActivity);
+            setAmount(tAmount);
+            setType(tType.toLowerCase());
+            setDescription(tDescription);
+
+            if (tType == "INCOME") {
+                setTypeIncome("EXPENSE");
+                setTypeValue("income");
+            }
+            else {
+                setTypeExpense("INCOME");
+                setTypeValue("expense");
+            }
         }
         
         catch (error) {
@@ -50,14 +66,17 @@ function AddTransactions() {
         if(!localStorage.getItem("accessToken")) {
           navigate("/login");
         }
+        else if (transactionID == null || transactionID == "") {
+            navigate("/transactions");
+        }
         else {
-            getUserInformation();
+            getTransactionInformation();
         }
     }, [])
 
 
-    // Function to add the transaction
-    async function addTransaction(event) {
+    // Function to edit the transaction
+    async function updateTransaction(event) {
         event.preventDefault();
 
         // Handling missing input
@@ -83,24 +102,24 @@ function AddTransactions() {
         }
         setError("");
 
-        // Adding the transaction
+        // Editing the transaction
         try {
-            const response = await fetch("http://localhost:3000" + "/addTransaction", {
-                method: "POST",
+            const response = await fetch("http://localhost:3000" + "/editTransaction", {
+                method: "PATCH",
                 headers: {
                     "authorization": "Bearer " + localStorage.getItem("accessToken"),
                     "Content-Type": "application/json"
                 },
                 body: 
                   JSON.stringify({
-                        username: userName,
+                        transactionID: transactionID,
                         date: date,
                         activity: activity,
                         amount: parseFloat(amount).toFixed(2),
                         type: type,
                         description: description
                   })
-            });
+              });
 
             // Making sure the user's login is still valid
             if (response.status === 401) {
@@ -109,24 +128,23 @@ function AddTransactions() {
             }
 
             let data = await response.json();
-            const {createdTransaction} = data;
+            const {editedTransaction} = data;
       
             // If creation is successful
-            if (createdTransaction) {
+            if (editedTransaction) {
                 setError("");
-                setSuccess("Successfully added the transaction");
+                setSuccess("Successfully saved the transaction");
             }
             // Else
             else {
                 setSuccess("");
-                setError("Failed to add the transaction");
+                setError("Failed to save the transaction");
             }
         }
 
         catch (error) {
 
         }
-
     }
 
 
@@ -144,7 +162,7 @@ function AddTransactions() {
                 {/* Title */}
                 <div className = "col-8 mb-5"> 
                     <div className = "fw-bold fs-3 text-center">
-                        New Transaction
+                        Edit Transaction
                     </div>
                 </div>
 
@@ -162,27 +180,27 @@ function AddTransactions() {
                             {/* Activity */}
                             <label htmlFor = "activity" className = "fw-bold mb-2"> Activity </label>
                             <div className = "mb-4">
-                                <input id = "activity" value = {activity} type = "text" placeholder = "Enter an activity" className = "form-control w-100" onChange = {(event) => {setActivity(event.target.value)}} required/>
+                                <input id = "activity" value = {activity} type = "text" className = "form-control w-100" onChange = {(event) => {setActivity(event.target.value)}} required/>
                             </div>
 
                             {/* Amount */}
                             <label htmlFor = "amount" className = "fw-bold mb-2"> Amount </label>
                             <div className = "mb-4">
-                                <input id = "amount" value = {amount} type = "number" placeholder = "Enter an amount" className = "form-control w-100" onChange = {(event) => {setAmount(event.target.value)}} required/>
+                                <input id = "amount" value = {amount} type = "number" className = "form-control w-100" onChange = {(event) => {setAmount(event.target.value)}} required/>
                             </div>
 
                             {/* Type */}
                             <label htmlFor = "typeOption" className = "fw-bold mb-2"> Type </label>
-                            <select id = "typeOption" value = {type} className = "form-select mb-4" onChange = {(event) => {setType(event.target.value)}}>
-                                <option value = ""></option>
-                                <option value = "income"> Income </option>
-                                <option value = "expense"> Expense </option>
+                            <select id = "typeOption" className = "form-select mb-4" onChange = {(event) => {setType(event.target.value)}}>
+                                <option value = {typeValue}> {typeValue} </option>
+                                {typeExpense && <option value = "income"> income </option>}
+                                {typeIncome && <option value = "expense"> expense </option>}
                             </select>
 
                             {/* Description */}
                             <label htmlFor = "description" className = "fw-bold mb-2"> Description </label>
                             <div className = "mb-4">
-                                <textarea id = "description" value = {description} placeholder = "Enter a description (Optional)" className = "form-control w-100" rows = "4" onChange = {(event) => {setDescription(event.target.value)}}></textarea>
+                                <textarea id = "description" value = {description} className = "form-control w-100" rows = "4" onChange = {(event) => {setDescription(event.target.value)}}></textarea>
                             </div>
 
                             {/* Error pop-up */}
@@ -193,7 +211,7 @@ function AddTransactions() {
 
                             {/* Button */}
                             <div>
-                                <input type = "submit" value = "Add Transaction" className = "btn btn-primary w-100 mt-2 mb-5" onClick = {addTransaction}></input> 
+                                <input type = "submit" value = "Save Transaction" className = "btn btn-primary w-100 mt-2 mb-5" onClick = {updateTransaction}></input> 
                             </div> 
 
                         </div>
@@ -207,4 +225,4 @@ function AddTransactions() {
     )
 }
   
-export default AddTransactions
+export default EditTransaction
