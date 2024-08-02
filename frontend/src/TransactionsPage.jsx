@@ -75,6 +75,30 @@ function TransactionsPage() {
 
         }
     }
+
+
+    // Function to delete all transactions
+    async function deleteTransactions() {
+        // Deleting the transaction
+        try {
+            const response = await fetch("http://localhost:3000" + "/deleteTransactions", {
+                method: "DELETE",
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken")
+                }
+              });
+
+            // Making sure the user's login is still valid
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+            }
+        }
+
+        catch (error) {
+
+        }
+    }
     
 
     // Returning
@@ -103,9 +127,9 @@ function TransactionsPage() {
             {/* Transactions table */}
             <div className = "row justify-content-center mt-5 mb-5">
                 <div className = "col-10">
-                    <div className="table-responsive-sm">
-                        <table className="table">
-                            <thead className="table-dark">
+                    <div className = "table-responsive-sm" style = {{maxHeight: "65vh", overflowX: "auto", overflowY: "auto"}}>
+                        <table className = "table">
+                            <thead className = "table-dark">
                                 <tr>
                                     <th scope = "col"> Date </th>
                                     <th scope = "col"> Activity </th>
@@ -169,6 +193,22 @@ function TransactionsPage() {
 
                         </table>
                     </div>
+
+
+                    {/* Delete All*/}
+                    <form action = "/transactions" method = "GET">
+                        <div className = "d-flex justify-content-end ">
+                            <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold mt-3 mb-5 px-3 py-2" 
+                                style = {{ backgroundColor: "#ffabab"}} 
+                                onClick = 
+                                    {() => {
+                                        deleteTransactions();
+                                    }}
+                            > 
+                            </input>
+                        </div>
+                    </form>
+
                 </div>
             </div>
 

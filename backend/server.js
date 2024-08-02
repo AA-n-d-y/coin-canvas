@@ -258,6 +258,31 @@ app.delete("/deleteTransaction", authenticateToken, async (request, response) =>
 });
 
 
+// Delete request (deleting all transactions)
+app.delete("/deleteTransactions", authenticateToken, async (request, response) => {
+  try {
+    // If the account exists, delete the transactions
+    const user = await User.findById(request.user._id);
+
+    if (user != null) {
+      user.transactions = [];
+      await user.save();
+      response.status(200);
+    }
+    
+    // Otherwise, do not delete the transactions
+    else {
+      response.status(401);
+    }
+  }
+
+  catch (error) {
+    // Otherwise, do not delete the transactions
+    response.status(409);
+  }
+});
+
+
 // Patch request (editing a transaction)
 app.patch("/editTransaction", authenticateToken, async (request, response) => {
   // Extracting the details
@@ -289,6 +314,7 @@ app.patch("/editTransaction", authenticateToken, async (request, response) => {
       user.transactions.find(transaction => transaction._id == transactionID).activity = activity;
       user.transactions.find(transaction => transaction._id == transactionID).amount = amount;
       user.transactions.find(transaction => transaction._id == transactionID).type = type;
+      user.transactions.find(transaction => transaction._id == transactionID).colour = colour;
       user.transactions.find(transaction => transaction._id == transactionID).description = description;
       user.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
       await user.save();
