@@ -127,7 +127,7 @@ function TransactionsPage() {
             {/* Transactions table */}
             <div className = "row justify-content-center mt-5 mb-5">
                 <div className = "col-10">
-                    <div className = "table-responsive-sm" style = {{maxHeight: "65vh", overflowX: "auto", overflowY: "auto"}}>
+                    <div className = "table-responsive-sm border-bottom border-4 border-dark" style = {{maxHeight: "80vh", overflowX: "auto", overflowY: "auto"}}>
                         <table className = "table">
                             <thead className = "table-dark">
                                 <tr>
@@ -195,10 +195,11 @@ function TransactionsPage() {
                     </div>
 
 
-                    {/* Delete All*/}
+                    {/* Transaction Total and Delete All Button*/}
                     <form action = "/transactions" method = "GET">
-                        <div className = "d-flex justify-content-end ">
-                            <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold mt-3 mb-5 px-3 py-2" 
+                        <span className = "d-flex justify-content-between mt-5 mb-5">
+                            <span className = "fw-bold fs-5 py-2"> Transactions: {transactionData.length} </span>
+                            <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold px-3 py-3" 
                                 style = {{ backgroundColor: "#ffabab"}} 
                                 onClick = 
                                     {() => {
@@ -206,7 +207,7 @@ function TransactionsPage() {
                                     }}
                             > 
                             </input>
-                        </div>
+                        </span>
                     </form>
 
                 </div>
