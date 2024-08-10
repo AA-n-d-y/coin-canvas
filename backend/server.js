@@ -131,6 +131,16 @@ app.post("/login", async (request, response) => {
 });
 
 
+// Patch request (updating user details)
+app.patch("/updateUserDetails", authenticateToken, async (request, response) => {
+
+
+  // Handle blank p's
+
+  
+});
+
+
 // Post request (adding a transaction)
 app.post("/addTransaction", authenticateToken, async (request, response) => {
   // Extracting the details
