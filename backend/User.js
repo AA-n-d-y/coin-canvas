@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     username: String,
     password: String,
+    currency: String,
     transactions: [transactionSchema] // Holding the transactions in this array
 });
 

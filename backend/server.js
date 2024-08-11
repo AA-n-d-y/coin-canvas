@@ -21,13 +21,13 @@ app.use(cors());
 let DB_URL = process.env.DB_URL;
 const mongoose = require("mongoose");
 async function connectDB() {
-    try {
-      await mongoose.connect(DB_URL);
-      console.log("Successfully connected to the database");
-    } 
-    catch (error) {
-      console.log("Failed to connect to the database");
-    }
+  try {
+    await mongoose.connect(DB_URL);
+    console.log("Successfully connected to the database");
+  } 
+  catch (error) {
+    console.log("Failed to connect to the database");
+  }
 }
 connectDB();
 
@@ -70,10 +70,10 @@ function authenticateToken(request, response, next) {
 app.get("/getUser", authenticateToken, async (request, response) => {
   // Getting the user information
   const user = await User.findById(request.user._id);
-  const {firstName, lastName, email, username} = user;
+  const {firstName, lastName, email, username, currency} = user;
 
   // Returning the information
-  response.status(200).json({firstName, lastName, email, username});
+  response.status(200).json({firstName, lastName, email, username, currency});
   return;
 });
 
@@ -93,7 +93,8 @@ app.post("/register", async (request, response) => {
 
     // Otherwise, create a new account and save it to the database
     password = await bcrypt.hash(password, 10);
-    const newUser = new User({firstName, lastName, email, username, password});
+    let currency = "$";
+    const newUser = new User({firstName, lastName, email, username, password, currency});
     await newUser.save();
     response.status(201).json({createdUser: true});
   }
@@ -133,11 +134,73 @@ app.post("/login", async (request, response) => {
 
 // Patch request (updating user details)
 app.patch("/updateUserDetails", authenticateToken, async (request, response) => {
+  // Extracting the details
+  let { firstName, lastName, email, password } = request.body;
 
+  try {
 
-  // Handle blank p's
+    // If the account exists, update the user's details
+    const user = await User.findById(request.user._id);
+    
+    if (user != null) {
+      // If the password is not null
+      if (password != "") {
+        user.password = await bcrypt.hash(password, 10);
+      }
 
+      // Update the user details, and save the user
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.email = email;
+      await user.save();
+
+      // Returning things to the client
+      response.status(200).json({updatedDetails: true});
+    }
+
+    // Otherwise, do not update the user
+    else {
+      response.status(401).json({updatedDetails: false});
+    }
+  }
   
+  catch (error) {
+    // Otherwise, do not update the user
+    response.status(422).json({updatedDetails: false});
+  } 
+});
+
+
+// Put request (updating user preferences)
+app.put("/updateUserPreferences", authenticateToken, async (request, response) => {
+  // Extracting the details
+  let { currency } = request.body;
+
+  try {
+
+    // If the account exists, update the user's preferences
+    const user = await User.findById(request.user._id);
+    
+    if (user != null) {
+  
+      // Update the user's preferences, and save the user
+      user.currency = currency;
+      await user.save();
+
+      // Returning things to the client
+      response.status(200).json({updatedPreferences: true});
+    }
+
+    // Otherwise, do not update the user
+    else {
+      response.status(401).json({updatedPreferences: false});
+    }
+  }
+  
+  catch (error) {
+    // Otherwise, do not update the user
+    response.status(422).json({updatedPreferences: false});
+  } 
 });
 
 
@@ -197,18 +260,19 @@ app.get("/getTransactions", authenticateToken, async (request, response) => {
 
     if (user != null) {
       const transactions = user.transactions;
-      response.status(200).json({transactions: transactions});
+      const currency = user.currency;
+      response.status(200).json({transactions: transactions, currency: currency});
     }
     
     // Otherwise, do not return the transactions
     else {
-      response.status(401).json({transactions: null});
+      response.status(401).json({transactions: null, currency: null});
     }
   }
 
   catch (error) {
     // Otherwise, do not return the transactions
-    response.status(409).json({transactions: null});
+    response.status(409).json({transactions: null, currency: null});
   }
 });
 

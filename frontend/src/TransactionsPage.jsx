@@ -10,6 +10,7 @@ function TransactionsPage() {
 
     // State variables
     const [transactionData, setTransactionData] = useState([]);
+    const [currencyFormat, setCurrencyFormat] = useState("");
 
 
     // Function for getting the transaction details
@@ -30,8 +31,9 @@ function TransactionsPage() {
             }
 
             let data = await response.json();
-            const {transactions} = data;
+            const {transactions, currency} = data;
             setTransactionData(transactions);
+            setCurrencyFormat(currency);
         }
         
         catch (error) {
@@ -151,7 +153,9 @@ function TransactionsPage() {
 
                                         {/* Amount */}
                                         <td className = "py-3"> 
-                                            <span className = "border border-2 border-white text-primary px-3 py-2" style = {{ backgroundColor: "#e0edfe", borderRadius: "20px"}}> ${transaction.amount} </span>
+                                            <span className = "border border-2 border-white text-primary px-3 py-2" style = {{ backgroundColor: "#e0edfe", borderRadius: "20px"}}> 
+                                                {currencyFormat}{transaction.amount} 
+                                            </span>
                                         </td>
 
                                         {/* Type */}
@@ -197,9 +201,9 @@ function TransactionsPage() {
 
                     {/* Transaction Total and Delete All Button*/}
                     <form action = "/transactions" method = "GET">
-                        <span className = "d-flex justify-content-between mt-5 mb-5">
+                        <span className = "d-flex justify-content-between mt-4 mb-5">
                             <span className = "fw-bold fs-5 py-2"> Transactions: {transactionData.length} </span>
-                            <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold px-3 py-3" 
+                            <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold px-3 py-2" 
                                 style = {{ backgroundColor: "#ffabab"}} 
                                 onClick = 
                                     {() => {

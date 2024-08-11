@@ -14,6 +14,7 @@ function SettingsPage() {
     const [email, setEmail] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [currencyFormat, setCurrencyFormat] = useState("");
     const [detailsError, setDetailsError] = useState(null);
     const [detailsSuccess, setDetailsSuccess] = useState(null);
     const [preferencesError, setPreferencesError] = useState(null);
@@ -38,13 +39,14 @@ function SettingsPage() {
             }
             
             let data = await response.json();
-            const {firstName, lastName, email, username} = data;
+            const {firstName, lastName, email, username, currency} = data;
             
             // Else if login is successful, set some state variable values
             setFirstName(firstName);
             setLastName(lastName);
             setEmail(email);
             setUsername(username);
+            setCurrencyFormat(currency);
         }
         
         catch (error) {
@@ -127,6 +129,59 @@ function SettingsPage() {
     }
 
 
+    // Function to update user preferences
+    async function updatePreferences(event) {
+        event.preventDefault();
+
+        // Handling missing input
+        if (firstName == "") {
+            setPreferencesError("Select a currency");
+            setPreferencesSuccess("");
+            return;
+        }
+        setPreferencesError("");
+
+        // Updating the user's preferences
+        try {
+            const response = await fetch("http://localhost:3000" + "/updateUserPreferences", {
+                method: "PUT",
+                headers: {
+                    "authorization": "Bearer " + localStorage.getItem("accessToken"),
+                    "Content-Type": "application/json"
+                },
+                body: 
+                  JSON.stringify({
+                        currency: currencyFormat
+                  })
+              });
+
+            // Making sure the user's login is still valid
+            if (response.status === 401) {
+                localStorage.clear();
+                navigate("/login");
+            }
+
+            let data = await response.json();
+            const {updatedPreferences} = data;
+      
+            // If update is successful
+            if (updatedPreferences) {
+                setPreferencesError("");
+                setPreferencesSuccess("Successfully updated your preferences");
+            }
+            // Else
+            else {
+                setPreferencesSuccess("");
+                setPreferencesError("Failed to update your preferences");
+            }
+        }
+
+        catch (error) {
+
+        }
+    }
+
+
     // Returning
     return (
       <>
@@ -147,7 +202,7 @@ function SettingsPage() {
 
                     {/* Account Details */}
                     <div className = "mt-5">
-                        <form onSubmit = {updateDetails}>
+                        <form>
                             
                             <label className = "fw-bold fs-5"> Account Details </label>
 
@@ -178,7 +233,9 @@ function SettingsPage() {
                             {/* Password */}
                             <div className = "form-group mt-3 mb-4">
                                 <label htmlFor = "password"> Password </label>
-                                <input type = "password" className = "form-control mt-1" id = "password" placeholder = "Enter a new password" onChange = {(event) => {setPassword(event.target.value)}} />
+                                <input type = "password" className = "form-control mt-1" id = "password" placeholder = "Enter a new password" autoComplete = "off" 
+                                    onChange = {(event) => {setPassword(event.target.value)}} 
+                                />
                             </div>
 
                             {/* Error pop-up */}
@@ -187,7 +244,7 @@ function SettingsPage() {
                             {/* Success pop-up */}
                             {detailsSuccess && <div className = "text-success mb-3"> {detailsSuccess} </div>}
 
-                            <button type = "submit" className = "btn btn-primary mt-2 mb-3"> Save Changes </button>
+                            <button type = "submit" className = "btn btn-primary mt-2 mb-3" onClick = {updateDetails}> Save Changes </button>
 
                         </form>
                     </div>
@@ -196,7 +253,86 @@ function SettingsPage() {
                     {/* Preferences */}
                     <div className = "mt-5">
                         <form>
-                            <label className = "fw-bold fs-5"> Preferences </label>
+                            <label className = "fw-bold fs-5"> Currency </label>
+
+                            {/* Currency options */}
+                            <div className = "d-md-flex mt-4 mb-4"> 
+
+                                {/* Dollar $ */}
+                                <div className = "form-check mx-3">
+                                    <input value = "$" className = "form-check-input" type = "radio" name = "currencyPreference" id = "dollarRadio" 
+                                        checked = {currencyFormat == "$"}
+                                        onChange = {(event) => {
+                                            setCurrencyFormat(event.target.value);
+                                        }}
+                                    />
+                                    <label className = "form-check-label" htmlFor = "dollarRadio">
+                                        $ - Dollar
+                                    </label>
+                                </div>
+                                
+                                {/* Euro € */}
+                                <div className = "form-check mx-3">
+                                    <input value = "€" className = "form-check-input" type = "radio" name = "currencyPreference" id = "euroRadio"
+                                        checked = {currencyFormat == "€"}
+                                        onChange = {(event) => {
+                                            setCurrencyFormat(event.target.value);
+                                        }}
+                                    />
+                                    <label className = "form-check-label" htmlFor = "euroRadio">
+                                        € - Euro
+                                    </label>
+                                </div>
+
+                                {/* Pound £ */}
+                                <div className = "form-check mx-3">
+                                    <input value = "£" className = "form-check-input" type = "radio" name = "currencyPreference" id = "poundRadio"
+                                        checked = {currencyFormat == "£"}
+                                        onChange = {(event) => {
+                                            setCurrencyFormat(event.target.value);
+                                        }}
+                                    />
+                                    <label className = "form-check-label" htmlFor = "poundRadio">
+                                        £ - Pound
+                                    </label>
+                                </div>
+
+                                {/* Yen ¥ */}
+                                <div className = "form-check mx-3">
+                                    <input value = "¥" className = "form-check-input" type = "radio" name = "currencyPreference" id = "yenRadio"
+                                        checked = {currencyFormat == "¥"}
+                                        onChange = {(event) => {
+                                            setCurrencyFormat(event.target.value);
+                                        }}
+                                    />
+                                    <label className = "form-check-label" htmlFor = "yenRadio">
+                                        ¥ - Yen
+                                    </label>
+                                </div>
+
+                                {/* No currency */}
+                                <div className = "form-check mx-3">
+                                    <input value = "" className = "form-check-input" type = "radio" name = "currencyPreference" id = "ncRadio"
+                                        checked = {currencyFormat == ""}
+                                        onChange = {(event) => {
+                                            setCurrencyFormat(event.target.value);
+                                        }}
+                                    />
+                                    <label className = "form-check-label" htmlFor = "ncRadio">
+                                        No currency
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            {/* Error pop-up */}
+                            {preferencesError && <div className = "text-danger mb-3"> {preferencesError} </div>}
+
+                            {/* Success pop-up */}
+                            {preferencesSuccess && <div className = "text-success mb-3"> {preferencesSuccess} </div>}
+
+                            <button type = "submit" className = "btn btn-primary mt-2 mb-5" onClick = {updatePreferences}> Save Preferences </button>
+
                         </form>
                     </div>
 
