@@ -10,18 +10,24 @@ function TransactionsPage() {
 
     // State variables
     const [transactionData, setTransactionData] = useState([]);
+    const [transactionFilter, setTransactionFilter] = useState("");
     const [currencyFormat, setCurrencyFormat] = useState("");
 
 
     // Function for getting the transaction details
-    async function getTransactionInformation() {
+    async function getTransactionInformation(transactionFilter) {
         // Finding the transactions
         try {
             const response = await fetch("http://localhost:3000" + "/getTransactions", {
-                method: "GET",
+                method: "POST",
                 headers: {
-                    "authorization": "Bearer " + localStorage.getItem("accessToken")
-                }
+                    "authorization": "Bearer " + localStorage.getItem("accessToken"),
+                    "Content-Type": "application/json"
+                },
+                body: 
+                  JSON.stringify({
+                        transactionFilter: transactionFilter
+                  })
             });
 
             // Making sure the user's login is still valid
@@ -45,9 +51,9 @@ function TransactionsPage() {
             navigate("/login");
         }
         else {
-            getTransactionInformation();
+            getTransactionInformation(transactionFilter);
         }
-    }, [])
+    }, [transactionFilter])
 
 
     // Function to delete a transaction
@@ -126,10 +132,20 @@ function TransactionsPage() {
 
             </div>
 
-            {/* Transactions table */}
+            {/* Transactions section */}
             <div className = "row justify-content-center mt-5 mb-5">
                 <div className = "col-10">
-                    <div className = "table-responsive-sm border-bottom border-4 border-dark" style = {{maxHeight: "80vh", overflowX: "auto", overflowY: "auto"}}>
+
+                    {/* Search bar */}
+                    <input value = {transactionFilter} className = "form-control w-100 mb-2" placeholder = "Filter by activity..." 
+                        onChange = {(event) => {
+                            setTransactionFilter(event.target.value);
+                        }} 
+                    />
+
+
+                    {/* Transactions table */}
+                    <div className = "table-responsive-sm border-bottom border-3 border-dark" style = {{maxHeight: "80vh", overflowX: "auto", overflowY: "auto"}}>
                         <table className = "table">
                             <thead className = "table-dark">
                                 <tr>

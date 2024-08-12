@@ -252,14 +252,27 @@ app.post("/addTransaction", authenticateToken, async (request, response) => {
 });
 
 
-// Get request (getting the transactions)
-app.get("/getTransactions", authenticateToken, async (request, response) => {
+// Post request (getting the transactions)
+app.post("/getTransactions", authenticateToken, async (request, response) => {
+  let { transactionFilter } = request.body;
+
   try {
     // If the account exists, return the transactions
     const user = await User.findById(request.user._id);
 
     if (user != null) {
-      const transactions = user.transactions;
+      let transactions;
+
+      // If there is a filter, return the filtered transactions
+      if (transactionFilter != "") {
+        transactions = user.transactions.filter(transaction => transaction.activity.includes(transactionFilter));
+      }
+
+      // Else return all the transactions
+      else {
+        transactions = user.transactions;
+      }
+
       const currency = user.currency;
       response.status(200).json({transactions: transactions, currency: currency});
     }
