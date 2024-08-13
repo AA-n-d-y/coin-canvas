@@ -1,4 +1,4 @@
-//// JS file for the transaction routes
+//// JS file for the transaction endpoints
 
 
 

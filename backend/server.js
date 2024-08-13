@@ -9,7 +9,9 @@ let PORT = process.env.PORT;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("./User.js");
-const Transaction = require('./Transaction.js');
+const Task = require("./Task.js");
+const TaskController = require("./TasksController.js");
+const Transaction = require("./Transaction.js");
 const TransactionController = require("./TransactionsController.js");
 const express = require("express");
 const app = express();
@@ -205,7 +207,11 @@ app.put("/updateUserPreferences", authenticateToken, async (request, response) =
 });
 
 
-// Connecting the transaction routes
+// Connecting the task endpoints
+app.use("/", TaskController);
+
+
+// Connecting the transaction endpoints
 app.use("/", TransactionController);
 
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './App.css';
+import NavBar from './NavBar';
 
 function ErrorPage() {  
     const navigate = useNavigate();
@@ -17,25 +18,12 @@ function ErrorPage() {
         }
     }, [])
 
-
-    // Function for logging out
-    function logout() {
-        // Removing the token from local storage and redirecting the user back to the login page
-        localStorage.removeItem("accessToken");
-    }
-
     
     // Returning
     return (
       <>
         {/* Navigation bar */}
-        <header>
-          <nav className = "navbar navbar-expand-md bg-primary fs-3">
-              <span className = "fw-bold text-light fs-3 px-4 py-2"> CoinCanvas </span>
-              <NavLink to = "/dashboard" className = "btn border-3 text-white fs-5 mx-1"> Dashboard </NavLink>
-              <NavLink to = "/logout" className = "btn border-3 text-white fs-5 mx-1" onClick = {logout}> Sign out </NavLink>
-          </nav>       
-        </header>   
+        <NavBar/>
 
 
         {/* Text */}
