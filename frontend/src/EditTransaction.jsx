@@ -40,6 +40,12 @@ function EditTransaction() {
                 navigate("/login");
             }
 
+            // If the transaction is null, redirect back to transactions
+            if (response.status === 404) {
+                navigate("/transactions");
+            }
+
+            // Else
             let data = await response.json();
             const {tDate, tActivity, tAmount, tType, tDescription} = data;
             setDate(tDate);
