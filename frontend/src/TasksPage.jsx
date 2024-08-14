@@ -159,10 +159,16 @@ function TasksPage() {
 
                 
                     {/* Tasks */}
-
-
-
-
+                    <div className = "">
+                        {taskData.map((task, index) => (
+                            <div className = "col-4 border border-dark">
+                                <h5> {task.title} </h5>
+                                <span> {task.date} </span>
+                                <p> {task.description} </p>
+                                
+                            </div>
+                        ))}
+                    </div>
         
                 </div>
             </div>
