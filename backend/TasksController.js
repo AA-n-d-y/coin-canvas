@@ -131,7 +131,7 @@ router.get("/getTask/:taskID", authenticateToken, async (request, response) => {
 
         // Else
         response.status(200).json({task: task, 
-            tTask: task.title, tDate: task.date, tDescription: task.description});
+            tTitle: task.title, tDate: task.date, tDescription: task.description});
       }
       
       // Otherwise, do not return the task

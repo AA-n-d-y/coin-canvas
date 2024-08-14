@@ -28,8 +28,10 @@ function App() {
         <Route path = "/dashboard" element = {<DashboardPage/>} />
         <Route path = "/tasks" element = {<TasksPage/>} />
         <Route path = "/addTasks" element = {<AddTasks/>} />
+        <Route path = "/editTask" element = {<EditTask/>} />
         <Route path = "/transactions" element = {<TransactionsPage/>} />
         <Route path = "/addTransactions" element = {<AddTransactions/>} />
+        <Route path = "/editTransaction" element = {<EditTransaction/>} />
         <Route path = "/settings" element = {<SettingsPage/>} />
         <Route path = "/logout" element = {<LoginPage/>} />
         <Route path = "*" element = {<ErrorPage/>} />

@@ -128,7 +128,7 @@ function TransactionsPage() {
                 </span>
 
                 {/* Transactions */}
-                <NavLink to = "/addTransactions" className = "col-md-2 col-8 btn bg-dark text-light fs-5 mx-1 mb-3 py-2"> + Add new </NavLink> 
+                <NavLink to = "/addTransactions" className = "col-md-2 col-8 btn btn-dark text-light fs-5 mx-1 mb-3 py-2"> + Add new </NavLink> 
 
             </div>
 
@@ -217,7 +217,7 @@ function TransactionsPage() {
 
                     {/* Transaction Total and Delete All Button*/}
                     <form action = "/transactions" method = "GET">
-                        <span className = "d-flex justify-content-between mt-4 mb-5">
+                        <span className = "d-flex flex-wrap justify-content-between mt-4 mb-5">
                             <span className = "fw-bold fs-5 py-2"> Transactions: {transactionData.length} </span>
                             <input type = "submit" value = "DELETE ALL" className = "btn border border-3 border-dark text-danger fw-bold px-3 py-2" 
                                 style = {{ backgroundColor: "#ffabab"}} 
