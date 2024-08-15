@@ -140,7 +140,6 @@ function TasksPage() {
                             setTaskFilter(event.target.value);
                         }} 
                     />
-
                     
                     {/* Task Total and Delete All Button*/}
                     <form action = "/tasks" method = "GET">

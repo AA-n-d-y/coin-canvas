@@ -20,6 +20,8 @@ function DashboardPage() {
     const [totalExpenses, setTotalExpenses] = useState(0.00);
     const [positiveBalance, setPositiveBalance] = useState(false);
     const [negativeBalance, setNegativeBalance] = useState(false);
+    const [zeroExpenses, setZeroExpenses] = useState(false);
+    const [normalExpenses, setNormalExpenses] = useState(false);
 
 
     // Function for getting the user details
@@ -85,26 +87,35 @@ function DashboardPage() {
             transactions.forEach((transaction) => {
                 if (transaction.type == "INCOME") {
                     income += parseFloat(transaction.amount);
-                    setTotalIncome(income);
                 }
                 else if (transaction.type == "EXPENSE") {
                     expenses += parseFloat(transaction.amount);
-                    setTotalExpenses(expenses);
                 }
             });
+            setTotalIncome(income.toFixed(2));
+            setTotalExpenses(expenses.toFixed(2));
+            if (expenses == 0) {
+                setZeroExpenses(true);
+                setNormalExpenses(false);
+            }
+            else {
+                setZeroExpenses(false);
+                setNormalExpenses(true);
+            }
+
 
             // If balance is negative
-            if (totalIncome - totalExpenses < 0) {
+            if (income - expenses < 0) {
                 setPositiveBalance(false);
                 setNegativeBalance(true);
-                setTotalRemaining(Math.abs(totalIncome - totalExpenses).toFixed(2));
+                setTotalRemaining(Math.abs(income - expenses).toFixed(2));
             }
             // Else
             else {
                 setPositiveBalance(true);
                 setNegativeBalance(false);
-                setTotalRemaining((totalIncome - totalExpenses).toFixed(2));
-            }
+                setTotalRemaining((income - expenses).toFixed(2));
+            }           
         }
         
         catch (error) {
@@ -133,35 +144,48 @@ function DashboardPage() {
         <main className = "container" style = {{marginTop: "75px"}}>
             <div className = "row justify-content-center">
                 {/* Welcome */}
-                <div className = "col-10"> 
-                    <div className = "fw-bold fs-3">
+                <div className = "col-10 mb-3"> 
+                    <div className = "fw-bold fs-3" style = {{ overflowWrap: 'break-word', wordWrap: 'break-word' }}>
                         Welcome, <br></br> {firstName} {lastName}
                     </div>
                 </div>
 
                 {/* Remaining, Income, Expenses */}
-                <div className = "col-10 d-flex flex-wrap flex-md-row d-grid justify-content-between mt-5">
+                <div className = "col-12 d-flex flex-wrap flex-md-row d-grid justify-content-md-around justify-content-center mt-5 mb-5">
 
                     {/* Remaining */}
-                    <div className = "col-3 border border-2 rounded border-primary px-2 py-2" style = {{}}> 
-                        <div> 
-                            <h4> Remaining </h4>
-                            <div className = "fs-4"> ⚖ </div>
+                    <div className = "col-md-3 col-10 border border-4 rounded border-primary px-3 py-2 mb-5" style = {{ overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                        <div className = "d-flex flex-wrap justify-content-between"> 
+                            <h4 className = "mt-2"> Remaining </h4>
+                            <div className = "fs-2"> ⚖ </div>
                         </div>
-                        <p className = "fs-4 fw-bold mt-3"> 
+                        <div className = "fs-4 fw-bold mt-3"> 
                             {positiveBalance && <p> {currencyFormat}{totalRemaining} </p>}
                             {negativeBalance && <p> -{currencyFormat}{totalRemaining} </p>}
-                        </p>
+                        </div>
                     </div>
                     
                     {/* Income */}
-                    <div className = "col-3 border border-2 rounded border-primary px-2 py-2">
-                        Income
+                    <div className = "col-md-3 col-10 border border-4 rounded border-primary px-3 py-2 mb-5" style = {{ overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                        <div className = "d-flex flex-wrap justify-content-between"> 
+                            <h4 className = "mt-2"> Income </h4>
+                            <div className = "fs-2"> ⤴️ </div>
+                        </div>
+                        <div className = "fs-4 fw-bold mt-3"> 
+                            <p> {currencyFormat}{totalIncome} </p>
+                        </div>
                     </div>
 
                     {/* Expenses */}
-                    <div className = "col-3 border border-2 rounded border-primary px-2 py-2">
-                        Expenses
+                    <div className = "col-md-3 col-10 border border-4 rounded border-primary px-3 py-2 mb-5" style = {{ overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                        <div className = "d-flex flex-wrap justify-content-between"> 
+                            <h4 className = "mt-2"> Expenses </h4>
+                            <div className = "fs-2"> ⤵️ </div>
+                        </div>
+                        <div className = "fs-4 fw-bold mt-3"> 
+                            {zeroExpenses && <p> {currencyFormat}{totalExpenses} </p>}
+                            {normalExpenses && <p> -{currencyFormat}{totalExpenses} </p>}
+                        </div>
                     </div>
 
                 </div>
