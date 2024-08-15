@@ -83,7 +83,30 @@ function SettingsPage() {
             setDetailsSuccess("");
             return;
         }
+
+        // Handling invalid lengths
+        if (firstName.length > 100) {
+            setDetailsError("Maximum characters for first name is 100");
+            setDetailsSuccess("");
+            return;
+        }
+        if (lastName.length > 100) {
+            setDetailsError("Maximum characters for last name is 100");
+            setDetailsSuccess("");
+            return;
+        }
+        if (email.length > 100) {
+            setDetailsError("Maximum characters for email is 100");
+            setDetailsSuccess("");
+            return;
+        }
+        if (password.length > 100) {
+            setDetailsError("Maximum characters for password is 100");
+            setDetailsSuccess("");
+            return;
+        }
         setDetailsError("");
+
 
         // Updating the user's details
         try {

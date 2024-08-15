@@ -13,7 +13,6 @@ const express = require("express");
 const router = express.Router();
 
 
-
 /// Extra functions
   
 function authenticateToken(request, response, next) {

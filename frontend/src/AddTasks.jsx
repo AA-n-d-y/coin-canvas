@@ -69,7 +69,20 @@ function AddTasks() {
             setSuccess("");
             return;
         }
+        
+        // Handling invalid lengths
+        if (title.length > 250) {
+            setError("Maximum characters for the title is 250");
+            setSuccess("");
+            return;
+        }
+        if (description.length > 500) {
+            setError("Maximum characters for the description is 500");
+            setSuccess("");
+            return;
+        }
         setError("");
+
 
         // Adding the task
         try {

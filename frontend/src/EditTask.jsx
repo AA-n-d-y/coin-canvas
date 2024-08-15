@@ -80,8 +80,21 @@ function EditTask() {
             setSuccess("");
             return;
         }
+
+        // Handling invalid lengths
+        if (title.length > 250) {
+            setError("Maximum characters for the title is 250");
+            setSuccess("");
+            return;
+        }
+        if (description.length > 500) {
+            setError("Maximum characters for the description is 500");
+            setSuccess("");
+            return;
+        }
         setError("");
 
+        
         // Editing the task
         try {
             const response = await fetch("http://localhost:3000" + "/editTask", {

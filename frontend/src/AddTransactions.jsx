@@ -81,7 +81,25 @@ function AddTransactions() {
             setSuccess("");
             return;
         }
+
+        // Handling invalid lengths
+        if (activity.length > 250) {
+            setError("Maximum characters for the activity is 250");
+            setSuccess("");
+            return;
+        }
+        if (amount.length > 100) {
+            setError("Maximum length for the amount is 100");
+            setSuccess("");
+            return;
+        }
+        if (description.length > 500) {
+            setError("Maximum characters for the description is 500");
+            setSuccess("");
+            return;
+        }
         setError("");
+
 
         // Adding the transaction
         try {

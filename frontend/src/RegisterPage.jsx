@@ -29,7 +29,6 @@ function RegisterPage() {
         catch (error) {
 
         }
-
     }
     useEffect(() => {
         if(!localStorage.getItem("accessToken")) {
@@ -75,7 +74,30 @@ function RegisterPage() {
         setError("Enter a password");
         return;
       }
+
+      // Handling invalid lengths
+      if (firstName.length > 100) {
+          setError("Maximum characters for first name is 100");
+          return;
+      }
+      if (lastName.length > 100) {
+          setError("Maximum characters for last name is 100");
+          return;
+      }
+      if (email.length > 100) {
+          setError("Maximum characters for email is 100");
+          return;
+      }
+      if (username.length > 100) {
+          setError("Maximum characters for username is 100");
+          return;
+      }
+      if (password.length > 100) {
+          setError("Maximum characters for password is 100");
+          return;
+      }
       setError("");
+
 
       // Registering the account
       try {
