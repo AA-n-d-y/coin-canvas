@@ -196,20 +196,20 @@ function DashboardPage() {
             <div className = "row justify-content-center">
 
                 {/* Welcome */}
-                <div className = "col-10 mb-3"> 
+                <div className = "col-10 mb-4"> 
                     <div className = "fw-bold fs-3" style = {{ overflowWrap: 'break-word', wordWrap: 'break-word' }}>
                         Welcome, <br></br> {firstName} {lastName}
                     </div>
                 </div>
 
 
-                {/* Remaining, Income, Expenses */}
+                {/* Balance, Income, Expenses */}
                 <div className = "col-12 d-flex flex-wrap flex-md-row d-grid justify-content-md-around justify-content-center mt-5 mb-5">
 
-                    {/* Remaining */}
+                    {/* Balance */}
                     <div className = "col-md-3 col-10 border border-4 rounded border-primary px-3 py-2 mb-5" style = {{ backgroundColor: "#d0e2ff", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
                         <div className = "d-flex flex-wrap justify-content-between"> 
-                            <h4 className = "mt-2"> Remaining </h4>
+                            <h4 className = "mt-2"> Balance </h4>
                             <div className = "fs-1"> ⚖ </div>
                         </div>
                         <div className = "fs-4 fw-bold mt-3"> 
