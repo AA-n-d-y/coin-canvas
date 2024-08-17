@@ -220,3 +220,6 @@ app.use("/", TransactionController);
 app.listen(PORT, () => {
     console.log("SERVER RUNNING");
 });
+
+
+module.exports = app;
