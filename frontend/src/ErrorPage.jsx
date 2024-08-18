@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import './App.css';
 import NavBar from './NavBar';
 
 function ErrorPage() {  

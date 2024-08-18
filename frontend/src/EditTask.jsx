@@ -3,7 +3,6 @@
 import NavBar from './NavBar';
 import { useState, useEffect, act } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import './App.css';
 
 function EditTask() {  
     const navigate = useNavigate();

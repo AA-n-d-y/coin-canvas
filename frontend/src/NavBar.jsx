@@ -1,7 +1,6 @@
 // JSX file for the navigation bar
 
 import { NavLink, useNavigate } from 'react-router-dom';
-import './App.css';
 
 function NavBar() {  
     const navigate = useNavigate();

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import './App.css';
 import { Radar } from 'react-chartjs-2';
 import { 
     Chart as ChartJS,

@@ -3,7 +3,6 @@
 import NavBar from './NavBar';
 import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import './App.css';
 
 function SettingsPage() {  
     const navigate = useNavigate();

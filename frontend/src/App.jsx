@@ -1,7 +1,6 @@
 // JSX file for the app
 
 import { useState } from 'react';
-import './App.css';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './LoginPage.jsx';
 import RegisterPage from './RegisterPage.jsx';
