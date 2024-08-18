@@ -161,7 +161,7 @@ function TasksPage() {
                 {/* Tasks */}
                 <div className = "col-12 d-flex flex-wrap flex-md-row d-grid justify-content-center">
                         {taskData.map((task, index) => (
-                            <div key = {task._id} className = "col-md-3 col-10 border shadow-sm mx-3 mb-5 px-3">
+                            <div key = {task._id} className = "col-md-3 col-10 border border-2 shadow-sm mx-3 mb-5 px-3">
                                 
                                 {/* Task details*/}
                                 <h5 className = "mt-2 fs-5 py-2" style = {{overflowX: "hidden", overflowY: "hidden"}}> {task.title} </h5>

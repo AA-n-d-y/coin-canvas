@@ -206,10 +206,10 @@ function DashboardPage() {
                 <div className = "col-12 d-flex flex-wrap flex-md-row d-grid justify-content-md-around justify-content-center mt-5 mb-5">
 
                     {/* Balance */}
-                    <div className = "col-md-3 col-10 border border-4 rounded border-primary px-3 py-2 mb-5" style = {{ backgroundColor: "#d0e2ff", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                    <div className = "col-md-3 col-10 border border-5 rounded border-primary px-3 py-2 mb-5" style = {{ backgroundColor: "#d0e2ff", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
                         <div className = "d-flex flex-wrap justify-content-between"> 
                             <h4 className = "mt-2"> Balance </h4>
-                            <div className = "fs-1"> ⚖ </div>
+                            <div className = "fs-1"> 🏦 </div>
                         </div>
                         <div className = "fs-4 fw-bold mt-3"> 
                             {positiveBalance && <p> {currencyFormat}{totalRemaining} </p>}
@@ -218,7 +218,7 @@ function DashboardPage() {
                     </div>
                     
                     {/* Income */}
-                    <div className = "col-md-3 col-10 border border-4 rounded border-success px-3 py-2 mb-5" style = {{ backgroundColor: "#a7ffd5", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                    <div className = "col-md-3 col-10 border border-5 rounded border-success px-3 py-2 mb-5" style = {{ backgroundColor: "#99fed0", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
                         <div className = "d-flex flex-wrap justify-content-between"> 
                             <h4 className = "mt-2"> Income </h4>
                             <div className = "fs-1"> ⤴️ </div>
@@ -229,7 +229,7 @@ function DashboardPage() {
                     </div>
 
                     {/* Expenses */}
-                    <div className = "col-md-3 col-10 border border-4 rounded border-danger px-3 py-2 mb-5" style = {{ backgroundColor: "#ffb1b1", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
+                    <div className = "col-md-3 col-10 border border-5 rounded border-danger px-3 py-2 mb-5" style = {{ backgroundColor: "#ffafaf", overflowWrap: 'break-word', wordWrap: 'break-word' }}> 
                         <div className = "d-flex flex-wrap justify-content-between"> 
                             <h4 className = "mt-2"> Expenses </h4>
                             <div className = "fs-1"> ⤵️ </div>

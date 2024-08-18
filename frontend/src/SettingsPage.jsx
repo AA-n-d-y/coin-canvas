@@ -226,7 +226,7 @@ function SettingsPage() {
                     <div className = "mt-5">
                         <form>
                             
-                            <label className = "fw-bold fs-5"> Account Details </label>
+                            <label className = "fw-bold fs-5 mb-1"> Account Details </label>
 
                             {/* First name and last name */}
                             <div className = "row mt-3">
