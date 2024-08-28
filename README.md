@@ -53,7 +53,7 @@ The settings page will show the user their account details and preferences. User
 <br>
 
 
-## How to run
+## How to run the application
 
 ### Prerequisites
 **Operating System**: Windows, macOS, or Linux <br>
