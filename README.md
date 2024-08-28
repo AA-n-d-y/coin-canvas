@@ -67,7 +67,7 @@ Docker, Docker Compose, and Docker CLI <br> (Installing only Docker should provi
 **4.** In the .env file, add these 3 variables: <br>
 ```PORT = 3000``` <br>
 ```DB_URL = "mongodb://mongo:27017/CoinCanvasDB"``` <br>
-```ACCESS_TOKEN_SECRET = " "``` <--- the string's value can be whatever you want, and it is used to encode your authentication tokens) <br>
+```ACCESS_TOKEN_SECRET = " "``` <--- the string's value can be whatever you want, and it is used to encode your authentication tokens <br>
 
 ### Running the application
 **1.** Make sure your terminal is in the coin-canvas directory, and it should contain the **docker-compose.yml** file <br>
@@ -79,7 +79,7 @@ Docker, Docker Compose, and Docker CLI <br> (Installing only Docker should provi
 ## Resources
 Git: https://git-scm.com/ <br>
 Docker: https://www.docker.com/ <br>
-Node.js (optional): https://nodejs.org/en <br>
+Node.js (optional): https://nodejs.org/en
 <br><br>
 
 
