@@ -72,7 +72,7 @@ Docker, Docker Compose, and Docker CLI <br> (Installing only Docker should provi
 ### Running the application
 **1.** Make sure your terminal is in the coin-canvas directory, and it should have the **docker-compose.yml** file <br>
 **2.** Use this command in the terminal: ```docker-compose up``` <br>
-**3.** Access the website on your browser at **http://localhost:5173/** <br>
+**3.** Access the website on your browser at **http://localhost:5173/** <br><br>
 
 
 ## Resources
