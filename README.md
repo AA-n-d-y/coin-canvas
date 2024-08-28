@@ -10,7 +10,7 @@ With a variety of features at users' disposal, CoinCanvas enables its users to c
 **Backend**: Express.js, Node.js <br>
 **Database**: MongoDB <br>
 **Testing Frameworks/Libraries**: Mocha, Chai, Jest, React Testing Library <br>
-**Other Tools**: Mongoose, JSON Web Tokens, Bcrypt
+**Other Tools**: Docker, Mongoose, JSON Web Tokens, Bcrypt
 <br><br>
 
 
