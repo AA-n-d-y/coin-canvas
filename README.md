@@ -57,20 +57,28 @@ The settings page will show the user their account details and preferences. User
 
 ### Prerequisites
 **Operating System**: Windows, macOS, or Linux <br>
-**Software**: Git, a code editor, Node.js, npm, Docker, Docker Compose, and Docker CLI <br> (Installing Docker Desktop should provide all of the necessary Docker tools) <br>
+**Software**: Git, a code editor/integrated development environment (example: Visual Studio Code), Node.js (optional), <br>
+Docker, Docker Compose, and Docker CLI <br> (Installing only Docker should provide all of the necessary Docker tools mentioned) <br>
 
 ### Setup
-**1.** Clone the repository using this command in your terminal: ```git clone https://github.com/AA-n-d-y/coin-canvas.git``` <br>
-**2.** Use this command in your terminal ```cd CoinCanvas``` <br>
-**3.** Create a **.env file** in the backend folder <br>
+**1.** Clone the repository by using this command in your terminal: ```git clone https://github.com/AA-n-d-y/coin-canvas.git``` <br>
+**2.** Use this command in your terminal ```cd coin-canvas``` <br>
+**3.** Create a **.env file** in the **backend folder** <br>
 **4.** In the .env file, add these 3 variables: <br>
 ```PORT = 3000``` <br>
 ```DB_URL = "mongodb://mongo:27017/CoinCanvasDB"``` <br>
-```ACCESS_TOKEN_SECRET = " "``` <--- the string's value should be whatever you want to use to encode your tokens) <br>
+```ACCESS_TOKEN_SECRET = " "``` <--- the string's value can be whatever you want, and it is used to encode your authentication tokens) <br>
 
 ### Running the application
-**1.** Make sure your terminal is in the root directory that has the **docker-compose.yml** file <br>
+**1.** Make sure your terminal is in the coin-canvas directory, and it should have the **docker-compose.yml** file <br>
 **2.** Use this command in the terminal: ```docker-compose up``` <br>
-**3.** Access the website on your browser at **http://localhost:5173/** <br><br>
+**3.** Access the website on your browser at **http://localhost:5173/** <br>
+
+
+## Resources
+Git: https://git-scm.com/ <br>
+Docker: https://www.docker.com/ <br>
+Node.js (optional): https://nodejs.org/en <br>
+<br><br>
 
 
