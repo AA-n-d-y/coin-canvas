@@ -70,9 +70,10 @@ Docker, Docker Compose, and Docker CLI <br> (Installing only Docker should provi
 ```ACCESS_TOKEN_SECRET = " "``` <--- the string's value can be whatever you want, and it is used to encode your authentication tokens) <br>
 
 ### Running the application
-**1.** Make sure your terminal is in the coin-canvas directory, and it should have the **docker-compose.yml** file <br>
-**2.** Use this command in the terminal: ```docker-compose up``` <br>
-**3.** Access the website on your browser at **http://localhost:5173/** <br><br>
+**1.** Make sure your terminal is in the coin-canvas directory, and it should contain the **docker-compose.yml** file <br>
+**2.** Also make sure the **Docker Desktop application** is opened and running in the background <br>
+**3.** Use this command in your code editor's terminal: ```docker-compose up``` <br>
+**4.** Access the website on your browser at **http://localhost:5173/** <br><br>
 
 
 ## Resources
